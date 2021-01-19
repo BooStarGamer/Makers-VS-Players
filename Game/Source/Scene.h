@@ -8,6 +8,7 @@ class GuiButton;
 class GuiSlider;
 class GuiCheckBox;
 class GuiString;
+struct SDL_Texture;
 
 enum Scenes
 {
@@ -38,8 +39,6 @@ private:
 	bool OnGuiMouseClickEvent(GuiControl* control);
 
 	Scenes currScene;
-
-	GuiString* test = nullptr;
 };
 
 #endif // __SCENE_H__

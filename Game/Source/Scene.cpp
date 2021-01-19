@@ -92,15 +92,6 @@ bool Scene::Update(float dt)
 	}
 	*/
 
-	if (test == nullptr)
-	{
-		test = (GuiString*)app->guiManager->CreateGuiControl(GuiControlType::TEXT);
-		test->bounds = {250, 250, 105, 27};
-		test->SetString("TEST");
-	}
-
-	test->Draw();
-
 	return true;
 }
 

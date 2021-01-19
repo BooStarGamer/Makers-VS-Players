@@ -31,7 +31,6 @@ public:
 public:
 
 	List<_TTF_Font*> fonts;
-	_TTF_Font* default;
-	_TTF_Font* fontTitle;
+	_TTF_Font* defaultFont = nullptr;
 };
 #endif // !_FONTTTF_H_

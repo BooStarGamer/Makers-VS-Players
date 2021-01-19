@@ -5,7 +5,7 @@
 #include "App.h"
 #include "FontTTF.h"
 
-struct SString;
+class SString;
 struct _TTF_Font;
 struct SDL_Texture;
 
@@ -25,8 +25,8 @@ public:
 	void SetTextFont(_TTF_Font* textFont);
 
 private:
-	_TTF_Font* textFont;
-	SDL_Texture* textTexture;
+	_TTF_Font* textFont = nullptr;
+	SDL_Texture* textTexture = nullptr;
 };
 
 #endif // !_GUISTRING_H_

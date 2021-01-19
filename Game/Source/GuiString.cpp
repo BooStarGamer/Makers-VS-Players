@@ -8,8 +8,9 @@ GuiString::GuiString(uint32 id, SDL_Rect bounds, const char* text, _TTF_Font* te
 	textTexture = app->fontTTF->Print(this->text.GetString(), { 255,255,255,255 }, textFont);
 }
 
-GuiString::GuiString() : GuiControl(GuiControlType::TEXT, id), textFont(nullptr)
+GuiString::GuiString() : GuiControl(GuiControlType::TEXT, id), textFont(app->fontTTF->defaultFont)
 {
+	textTexture = app->fontTTF->Print(this->text.GetString(), { 255,255,255,255 }, textFont);
 }
 
 GuiString::~GuiString()
@@ -18,7 +19,7 @@ GuiString::~GuiString()
 
 void GuiString::Draw()
 {
-	app->render->DrawTexture(textTexture, bounds.x - app->render->camera.x, bounds.y/*- app->render->camera.y*/);
+	app->render->DrawTexture(textTexture, bounds.x - app->render->camera.x, bounds.y - app->render->camera.y);
 }
 
 void GuiString::SetString(char* newText)
