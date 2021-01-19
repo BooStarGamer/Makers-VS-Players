@@ -6,7 +6,7 @@
 #include "GuiButton.h"
 #include "GuiCheckBox.h"
 #include "GuiSlider.h"
-//#include "GuiString.h"
+#include "GuiString.h"
 
 GuiControl* GuiManager::CreateGuiControl(GuiControlType type)
 {
@@ -17,7 +17,7 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type)
 	case GuiControlType::BUTTON: control = new GuiButton(NULL, { 0, 0, 0, 0 }, "0"); break;
 	case GuiControlType::CHECKBOX: control = new GuiCheckBox(NULL, { 0, 0, 0, 0 }, "0"); break;
 	case GuiControlType::SLIDER: control = new GuiSlider(NULL, { 0, 0, 0, 0 }, "0"); break;
-	//case GuiControlType::TEXT: control = new GuiString(); break;
+	case GuiControlType::TEXT: control = new GuiString(NULL, { 0, 0, 0, 0 }, "0"); break;
 	default: break;
 	}
 
@@ -52,6 +52,9 @@ bool GuiManager::Update(float dt)
 {
 	accumulatedTime += dt;
 	if (accumulatedTime >= updateMsCycle) doLogic = true;
+
+	//Activate Debug Draw
+	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) debugGui = !debugGui;
 
 	//UpdateAll(dt, doLogic);
 

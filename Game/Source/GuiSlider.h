@@ -38,7 +38,6 @@ private:
 
     const SDL_Rect normalBar = { 0, 0, 0, 0 };
     const SDL_Rect pressedBar = { 0, 0, 0, 0 };
-
     const SDL_Rect normalSlider = { 0, 0, 0, 0 };
     const SDL_Rect pressedSlider = { 0, 0, 0, 0 };
 };

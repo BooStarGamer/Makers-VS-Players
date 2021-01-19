@@ -5,7 +5,10 @@
 #include "Render.h"
 #include "Textures.h"
 
+#include "GuiManager.h"
 #include "GuiButton.h"
+#include "GuiCheckBox.h"
+#include "GuiSlider.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -79,6 +82,17 @@ bool Scene::Update(float dt)
 		app->render->DrawTexture(debugTex, pos.x, pos.y);
 	}
 	*/
+
+	if (test == nullptr)
+	{
+		test = (GuiCheckBox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX);
+		test->bounds = {250, 250, 50, 50};
+		test->SetObserver(this);
+	}
+
+	test->Update(0.0f);
+	test->Draw();
+
 	return true;
 }
 
@@ -92,6 +106,34 @@ bool Scene::PostUpdate()
 bool Scene::CleanUp()
 {
 	LOG("Freeing scene");
+
+	return true;
+}
+
+bool Scene::OnGuiMouseClickEvent(GuiControl* control)
+{
+	switch (currScene)
+	{
+	case MAIN_MENU:
+					/*if (vSyncCheckBox->GetCheckedState())
+					{
+						app->render->SetVSync(true);
+					}
+					else if (!vSyncCheckBox->GetCheckedState())
+					{
+						app->render->SetVSync(false);
+					}*/
+
+					/*if (fullScreenCheckBox->GetCheckedState())
+					{
+						app->win->SetWinFullScreen(true);
+					}
+					else if (!fullScreenCheckBox->GetCheckedState())
+					{
+						app->win->SetWinFullScreen(false);
+					}*/
+		break;
+	}
 
 	return true;
 }

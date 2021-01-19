@@ -88,7 +88,11 @@ bool GuiCheckBox::Draw()
         {
         case GuiControlState::DISABLED: app->render->DrawRectangle(bounds, { 100, 100, 100, 80 });
             break;
-        case GuiControlState::NORMAL: app->render->DrawRectangle(bounds, { 0, 255, 0, 80 });
+        case GuiControlState::NORMAL: 
+        {
+            if (!checked) app->render->DrawRectangle(bounds, { 0, 255, 0, 80 });
+            else if (checked) app->render->DrawRectangle(bounds, { 255, 0, 0, 80 });
+        }
             break;
         case GuiControlState::FOCUSED: app->render->DrawRectangle(bounds, { 255, 255, 0, 80 });
             break;

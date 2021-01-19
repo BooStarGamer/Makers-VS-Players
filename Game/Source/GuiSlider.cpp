@@ -36,7 +36,7 @@ bool GuiSlider::Update(float dt)
                     //app->audio->PlayFx(Click Sound);
                 }
                 state = GuiControlState::SELECTED;
-                if (mouseX > bounds.x && mouseX < (bounds.x + bounds.w))
+                if (mouseX > (bounds.x + slider.w / 2)  && mouseX < (bounds.x + bounds.w - slider.w / 2))
                 {
                     //you can move sliderbox
                     slider.x = mouseX - (slider.w * 0.5);
@@ -169,9 +169,12 @@ void GuiSlider::SetValue(int val)
 
 void GuiSlider::UpdateValue()
 {
-    percentValue = ((slider.x + (slider.w * 0.5)) - (bounds.x)) / ((bounds.x + bounds.w) - bounds.x);
+    float sliderPos = ((slider.x + (slider.w / 2)) - (bounds.x + (slider.w / 2)));
+    float totalWidth = ((bounds.x + bounds.w - slider.w / 2) - (bounds.x + slider.w / 2));
 
-    value = floor(percentValue * maxValue);
+    percentValue = sliderPos / totalWidth;
+
+    value = (int)floor(percentValue * maxValue);
 }
 
 int GuiSlider::GetMinValue() const
