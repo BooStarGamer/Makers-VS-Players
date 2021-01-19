@@ -168,9 +168,6 @@
     <ClInclude Include="Source\GuiSlider.h">
       <Filter>GuiControls</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SceneManagement.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Scene.h">
       <Filter>Modules</Filter>
     </ClInclude>

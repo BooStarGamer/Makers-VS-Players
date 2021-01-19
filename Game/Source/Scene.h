@@ -2,7 +2,6 @@
 #define __SCENE_H__
 
 #include "Module.h"
-#include "SceneManagement.h"
 
 class GuiButton;
 class GuiSlider;
@@ -12,6 +11,8 @@ struct SDL_Texture;
 
 enum Scenes
 {
+	NONE = -1,
+	LOGO_SCENE,
 	MAIN_MENU
 };
 
@@ -35,10 +36,28 @@ public:
 
 	bool CleanUp();
 
+	Scenes GetCurrScene() const
+	{
+		return currScene;
+	}
+
+private: //Scene Manager
+	Scenes currScene = NONE;
+	Scenes prevScene = NONE;
+
+	void SetScene(Scenes scene);
+
+	//Setters
+	void SetLogoScene();
+	void SetMainMenu();
+
+	//Updaters
+	void UpdateLogoScene();
+	void UpdateMainMenu();
+
+
 private:
 	bool OnGuiMouseClickEvent(GuiControl* control);
-
-	Scenes currScene;
 };
 
 #endif // __SCENE_H__

@@ -42,6 +42,8 @@ bool Scene::Awake()
 
 bool Scene::Start()
 {
+	SetScene(LOGO_SCENE);
+
 	return true;
 }
 
@@ -92,6 +94,9 @@ bool Scene::Update(float dt)
 	}
 	*/
 
+	if (currScene == LOGO_SCENE) UpdateLogoScene();
+	else if (currScene == MAIN_MENU) UpdateMainMenu();
+
 	return true;
 }
 
@@ -108,6 +113,42 @@ bool Scene::CleanUp()
 
 	return true;
 }
+
+// SCENE MANAGER
+
+void Scene::SetScene(Scenes scene)
+{
+	prevScene = currScene;
+	currScene = scene;
+
+	CleanUp();
+
+	if (scene == LOGO_SCENE) SetLogoScene();
+	else if (scene == MAIN_MENU) SetMainMenu();
+
+}
+
+void Scene::SetLogoScene()
+{
+
+}
+
+void Scene::SetMainMenu()
+{
+
+}
+
+void Scene::UpdateLogoScene()
+{
+
+}
+
+void Scene::UpdateMainMenu()
+{
+
+}
+
+// GUI CONTROLS
 
 bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 {
