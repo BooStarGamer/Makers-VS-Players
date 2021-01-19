@@ -6,6 +6,10 @@
     <organization>UPC</organization>
   </app>
 
+  <fonts>
+    <default_font file="Assets/Fonts/kenvector_future_thin.ttf" size="18"/>
+  </fonts>
+
   <renderer>
     <vsync value="true"/>
   </renderer>

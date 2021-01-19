@@ -2,13 +2,22 @@
 #include "Scene.h"
 
 #include "Input.h"
-#include "Render.h"
 #include "Textures.h"
+#include "Audio.h"
+#include "Render.h"
+#include "Window.h"
+#include "Map.h"
+#include "Pathfinding.h"
+#include "EntityManager.h"
+#include "Entity.h"
 
 #include "GuiManager.h"
+#include "GuiString.h"
+#include "GuiControl.h"
 #include "GuiButton.h"
 #include "GuiCheckBox.h"
 #include "GuiSlider.h"
+#include "FontTTF.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -85,12 +94,11 @@ bool Scene::Update(float dt)
 
 	if (test == nullptr)
 	{
-		test = (GuiCheckBox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX);
-		test->bounds = {250, 250, 50, 50};
-		test->SetObserver(this);
+		test = (GuiString*)app->guiManager->CreateGuiControl(GuiControlType::TEXT);
+		test->bounds = {250, 250, 105, 27};
+		test->SetString("TEST");
 	}
 
-	test->Update(0.0f);
 	test->Draw();
 
 	return true;

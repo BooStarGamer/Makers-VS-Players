@@ -39,7 +39,7 @@ private:
 
 	Scenes currScene;
 
-	GuiCheckBox* test = nullptr;
+	GuiString* test = nullptr;
 };
 
 #endif // __SCENE_H__

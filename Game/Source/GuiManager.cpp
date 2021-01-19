@@ -7,6 +7,7 @@
 #include "GuiCheckBox.h"
 #include "GuiSlider.h"
 #include "GuiString.h"
+#include "FontTTF.h"
 
 GuiControl* GuiManager::CreateGuiControl(GuiControlType type)
 {
@@ -17,7 +18,7 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type)
 	case GuiControlType::BUTTON: control = new GuiButton(NULL, { 0, 0, 0, 0 }, "0"); break;
 	case GuiControlType::CHECKBOX: control = new GuiCheckBox(NULL, { 0, 0, 0, 0 }, "0"); break;
 	case GuiControlType::SLIDER: control = new GuiSlider(NULL, { 0, 0, 0, 0 }, "0"); break;
-	case GuiControlType::TEXT: control = new GuiString(NULL, { 0, 0, 0, 0 }, "0"); break;
+	case GuiControlType::TEXT: control = new GuiString(); break;
 	default: break;
 	}
 

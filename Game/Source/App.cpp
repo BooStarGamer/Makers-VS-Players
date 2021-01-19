@@ -7,6 +7,7 @@
 #include "Audio.h"
 #include "EntityManager.h"
 #include "GuiManager.h"
+#include "FontTTF.h"
 #include "Scene.h"
 
 #include "Defs.h"
@@ -30,6 +31,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	audio = new AudioManager();
 	entityManager = new EntityManager();
 	guiManager = new GuiManager();
+	fontTTF = new FontTTF();
 	scene = new Scene();
 
 	// Ordered for awake / Start / Update
@@ -40,6 +42,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(entityManager);
 	AddModule(guiManager);
+	AddModule(fontTTF);
 	AddModule(scene);
 
 	// Render last to swap buffer

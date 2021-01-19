@@ -20,6 +20,7 @@ class Textures;
 class AudioManager;
 class EntityManager;
 class GuiManager;
+class FontTTF;
 class Scene;
 
 class App
@@ -83,6 +84,7 @@ public:
 	AudioManager* audio;
 	EntityManager* entityManager;
 	GuiManager* guiManager;
+	FontTTF* fontTTF;
 	Scene* scene;
 
 private:
