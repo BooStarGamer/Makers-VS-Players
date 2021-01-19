@@ -89,7 +89,7 @@ public: //Others
 //{
 //	testSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER);
 //	testSlider->bounds = { 0, 0, 100, 20 };
-//  testSlider->SetSlider({bounds.x, bounds.y, 20, 20});
+//  testSlider->SetSlider({testSlider->bounds.x, testSlider->bounds.y, 20, 20});
 //	testSlider->text = "testSlider";
 //  testSlider->SetMaxValue(100);
 //  testSlider->SetMinValue(0);

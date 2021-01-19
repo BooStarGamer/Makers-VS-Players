@@ -152,6 +152,26 @@ bool GuiSlider::Draw()
     return false;
 }
 
+bool GuiSlider::CleanUp()
+{
+    slider = {0, 0, 0, 0};
+    minValue = NULL;
+    maxValue = NULL;
+
+    return true;
+}
+
+bool GuiSlider::Destroy()
+{
+    CleanUp();
+    bounds = { 0, 0, 0, 0 };
+    observer = nullptr;
+    text.Clear();
+    id = NULL;
+
+    return true;
+}
+
 void GuiSlider::SetMinValue(int val)
 {
     minValue = val;

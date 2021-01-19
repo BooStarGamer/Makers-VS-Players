@@ -58,6 +58,8 @@ private: //Scene Manager
 
 private:
 	bool OnGuiMouseClickEvent(GuiControl* control);
+
+	GuiSlider* testSlider;
 };
 
 #endif // __SCENE_H__
