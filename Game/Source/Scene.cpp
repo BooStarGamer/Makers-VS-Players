@@ -120,6 +120,8 @@ bool Scene::CleanUp()
 {
 	LOG("Freeing scene");
 
+	sceneEditor->CleanUp();
+
 	return true;
 }
 
@@ -134,7 +136,7 @@ void Scene::SetScene(Scenes scene)
 
 	if (scene == LOGO_SCENE) SetLogoScene();
 	else if (scene == MAIN_MENU) SetMainMenu();
-	else if (scene == EDITOR_SCENE) SetMainMenu();
+	else if (scene == EDITOR_SCENE) SetEditor();
 
 }
 
@@ -150,7 +152,7 @@ void Scene::SetMainMenu()
 
 void Scene::SetEditor()
 {
-
+	sceneEditor->background = app->tex->Load("Assets/Textures/static_background.png");
 }
 
 void Scene::UpdateLogoScene()
@@ -166,7 +168,7 @@ void Scene::UpdateMainMenu()
 void Scene::UpdateEditor()
 {
 	sceneEditor->debugMargin = true;
-	sceneEditor->DrawGrid();
+	sceneEditor->Draw();
 
 	sceneEditor->CameraMove();
 	sceneEditor->LevelAmpLogic();

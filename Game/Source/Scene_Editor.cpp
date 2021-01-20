@@ -2,6 +2,7 @@
 #include "Scene_Editor.h"
 #include "Render.h"
 #include "Input.h"
+#include "Textures.h"
 #include "Window.h"
 
 #include "Log.h"
@@ -14,10 +15,22 @@ SceneEditor::SceneEditor()
 SceneEditor::SceneEditor(LevelAmplitude lvl)
 {
 	lvlAmp = lvl;
+
 }
 
 SceneEditor::~SceneEditor()
 {
+}
+
+void SceneEditor::Draw()
+{
+	app->render->DrawTexture(background, W_MARGIN, H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2);
+	DrawGrid();
+}
+
+void SceneEditor::CleanUp()
+{
+	app->tex->UnLoad(background);
 }
 
 void SceneEditor::DrawGrid()
@@ -120,6 +133,6 @@ void SceneEditor::DebugMargin(bool debug)
 		app->render->DrawLine(W_MARGIN, H_MARGIN, WIN_WIDTH + W_MARGIN, H_MARGIN, { 255, 255, 255, 100 }, false);
 		app->render->DrawLine(W_MARGIN, H_MARGIN, W_MARGIN, WIN_HEIGHT + H_MARGIN, { 255, 255, 255, 100 }, false);
 		app->render->DrawLine(W_MARGIN, WIN_HEIGHT + H_MARGIN, WIN_WIDTH + W_MARGIN, WIN_HEIGHT + H_MARGIN, { 255, 255, 255, 80 }, false);
-		app->render->DrawLine(WIN_WIDTH + W_MARGIN + 1, H_MARGIN, WIN_WIDTH + W_MARGIN + 1, WIN_HEIGHT + H_MARGIN, { 255, 255, 255, 80 }, false);
+		app->render->DrawLine(WIN_WIDTH + W_MARGIN, H_MARGIN, WIN_WIDTH + W_MARGIN + 1, WIN_HEIGHT + H_MARGIN, { 255, 255, 255, 80 }, false);
 	}
 }
