@@ -140,22 +140,7 @@ void Scene::SetMainMenu()
 
 void Scene::UpdateLogoScene()
 {
-	if (testSlider == nullptr)
-	{
-		testSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER);
-		testSlider->bounds = { 0, 0, 100, 20 };
-		testSlider->SetSlider({ testSlider->bounds.x, testSlider->bounds.y, 20, 20 });
-		testSlider->text = "testSlider";
-		testSlider->SetMaxValue(100);
-		testSlider->SetMinValue(0);
-		testSlider->SetObserver(this);
-	}
 
-	testSlider->Update(0.0f);
-	testSlider->Draw();
-
-	//testSlider->Destroy();
-	//testSlider = nullptr;
 }
 
 void Scene::UpdateMainMenu()

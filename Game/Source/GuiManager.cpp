@@ -29,6 +29,7 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type)
 
 void GuiManager::DestroyGuiControl(GuiControl* entity)
 {
+
 }
 
 GuiManager::GuiManager()
