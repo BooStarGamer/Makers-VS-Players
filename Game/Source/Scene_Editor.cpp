@@ -22,6 +22,9 @@ SceneEditor::SceneEditor(LevelAmplitude lvl)
 		for (int y = 0; y < 26; y++)
 		{
 			Tileset0.Add(new uTile({ TILE_SIZE * x + W_MARGIN, TILE_SIZE * y + H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, 41, 41 }, { x, y }));
+			Tileset1.Add(new uTile({ TILE_SIZE * x + W_MARGIN + WIN_WIDTH * 1, TILE_SIZE * y + H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, 41, 41 }, { x + 25, y }));
+			Tileset2.Add(new uTile({ TILE_SIZE * x + W_MARGIN + WIN_WIDTH * 2, TILE_SIZE * y + H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, 41, 41 }, { x + 50, y }));
+			Tileset3.Add(new uTile({ TILE_SIZE * x + W_MARGIN + WIN_WIDTH * 3, TILE_SIZE * y + H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, 41, 41 }, { x + 75, y }));
 		}
 	}
 }
@@ -34,7 +37,7 @@ void SceneEditor::Draw()
 {
 	app->render->DrawTexture(background, W_MARGIN, H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2);
 
-	DebugTileset(AMP0, debugTileset);
+	DebugTileset(lvlAmp, debugTileset);
 
 	DrawGrid();
 }
@@ -151,41 +154,162 @@ void SceneEditor::DebugMargin(bool debug)
 
 void SceneEditor::DebugTileset(LevelAmplitude lvlAmp, bool debug)
 {
+	Uint8 alpha = 100;
 	if (debug)
 	{
 		iPoint mousePos = GetMousePosInTile();
 
-		if (lvlAmp == AMP0)
+		if ((int)lvlAmp >= 0 && mousePos.x >= 0 && mousePos.x < -maxAmp[1])
 		{
-			ListItem<uTile*>* list;
-			for (list = Tileset0.start; list != nullptr; list = list->next)
+			ListItem<uTile*>* list0;
+			for (list0 = Tileset0.start; list0 != nullptr; list0 = list0->next)
 			{
-				if (list->data == GetTileFromXY(mousePos.x, mousePos.y))
+				if (list0->data == GetTileFromXY(mousePos.x, mousePos.y, lvlAmp))
 				{
-					app->render->DrawRectangle(list->data->tileRect, { 200, 255, 100, 200 });
+					app->render->DrawRectangle(list0->data->tileRect, { 200, 255, 100, alpha });
 				}
 				else
 				{
-					app->render->DrawRectangle(list->data->tileRect, { 255, 200, 100, 200 });
+					app->render->DrawRectangle(list0->data->tileRect, { 255, 200, 100, alpha });
 				}
+			}
+		}
+		else if ((int)lvlAmp >= 0)
+		{
+			ListItem<uTile*>* list0;
+			for (list0 = Tileset0.start; list0 != nullptr; list0 = list0->next)
+			{
+				app->render->DrawRectangle(list0->data->tileRect, { 255, 200, 100, alpha });
+			}
+		}
+		
+		if ((int)lvlAmp > 0 && mousePos.x >= -maxAmp[1] && mousePos.x < -maxAmp[2])
+		{
+			ListItem<uTile*>* list1;
+			for (list1 = Tileset1.start; list1 != nullptr; list1 = list1->next)
+			{
+				if (list1->data == GetTileFromXY(mousePos.x, mousePos.y, lvlAmp))
+				{
+					app->render->DrawRectangle(list1->data->tileRect, { 200, 255, 100, alpha });
+				}
+				else
+				{
+					app->render->DrawRectangle(list1->data->tileRect, { 255, 200, 100, alpha });
+				}
+			}
+		}
+		else if ((int)lvlAmp > 0)
+		{
+			ListItem<uTile*>* list1;
+			for (list1 = Tileset1.start; list1 != nullptr; list1 = list1->next)
+			{
+				app->render->DrawRectangle(list1->data->tileRect, { 255, 200, 100, alpha });
+			}
+		}
+
+		if ((int)lvlAmp > 1 && mousePos.x >= -maxAmp[2] && mousePos.x < -maxAmp[3])
+		{
+			ListItem<uTile*>* list2;
+			for (list2 = Tileset2.start; list2 != nullptr; list2 = list2->next)
+			{
+				if (list2->data == GetTileFromXY(mousePos.x, mousePos.y, lvlAmp))
+				{
+					app->render->DrawRectangle(list2->data->tileRect, { 200, 255, 100, alpha });
+				}
+				else
+				{
+					app->render->DrawRectangle(list2->data->tileRect, { 255, 200, 100, alpha });
+				}
+			}
+		}
+		else if ((int)lvlAmp > 1)
+		{
+			ListItem<uTile*>* list2;
+			for (list2 = Tileset2.start; list2 != nullptr; list2 = list2->next)
+			{
+				app->render->DrawRectangle(list2->data->tileRect, { 255, 200, 100, alpha });
+			}
+		}
+
+		if ((int)lvlAmp > 2 && mousePos.x >= -maxAmp[3] && mousePos.x < -maxAmp[3] + WIN_WIDTH)
+		{
+			ListItem<uTile*>* list3;
+			for (list3 = Tileset3.start; list3 != nullptr; list3 = list3->next)
+			{
+				if (list3->data == GetTileFromXY(mousePos.x, mousePos.y, lvlAmp))
+				{
+					app->render->DrawRectangle(list3->data->tileRect, { 200, 255, 100, alpha });
+				}
+				else
+				{
+					app->render->DrawRectangle(list3->data->tileRect, { 255, 200, 100, alpha });
+				}
+			}
+		}
+		else if ((int)lvlAmp > 2)
+		{
+			ListItem<uTile*>* list3;
+			for (list3 = Tileset3.start; list3 != nullptr; list3 = list3->next)
+			{
+				app->render->DrawRectangle(list3->data->tileRect, { 255, 200, 100, alpha });
 			}
 		}
 	}
 }
 
-uTile* SceneEditor::GetTileFromXY(int x, int y)
+uTile* SceneEditor::GetTileFromXY(int x, int y, LevelAmplitude lvlAmp)
 {
 	int floorX = floor(x / TILE_SIZE);
 	int floorY = floor(y / TILE_SIZE);
 
-	ListItem<uTile*>* list;
-	for (list = Tileset0.start; list != nullptr; list = list->next)
+	if ((int)lvlAmp >= 0)
 	{
-		if (list->data->position.x == floorX && list->data->position.y == floorY)
+		ListItem<uTile*>* list0;
+		for (list0 = Tileset0.start; list0 != nullptr; list0 = list0->next)
 		{
-			return list->data;
+			if (list0->data->position.x == floorX && list0->data->position.y == floorY)
+			{
+				return list0->data;
+			}
 		}
 	}
+
+	if ((int)lvlAmp > 0)
+	{
+		ListItem<uTile*>* list1;
+		for (list1 = Tileset1.start; list1 != nullptr; list1 = list1->next)
+		{
+			if (list1->data->position.x == floorX && list1->data->position.y == floorY)
+			{
+				return list1->data;
+			}
+		}
+	}
+
+	if ((int)lvlAmp > 1)
+	{
+		ListItem<uTile*>* list2;
+		for (list2 = Tileset2.start; list2 != nullptr; list2 = list2->next)
+		{
+			if (list2->data->position.x == floorX && list2->data->position.y == floorY)
+			{
+				return list2->data;
+			}
+		}
+	}
+
+	if ((int)lvlAmp > 2)
+	{
+		ListItem<uTile*>* list3;
+		for (list3 = Tileset3.start; list3 != nullptr; list3 = list3->next)
+		{
+			if (list3->data->position.x == floorX && list3->data->position.y == floorY)
+			{
+				return list3->data;
+			}
+		}
+	}
+
 	return nullptr;
 }
 

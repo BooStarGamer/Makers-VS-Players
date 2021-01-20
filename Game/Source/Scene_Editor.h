@@ -51,7 +51,7 @@ private: //Functions
 	void SceneEditor::DebugTileset(LevelAmplitude lvlAmp, bool debug);
 
 public: // variables
-	bool debugMargin = false;
+	bool debugMargin = true;
 	bool debugTileset = false;
 	SDL_Texture* background = nullptr;
 
@@ -61,8 +61,11 @@ private: //Amplitude
 
 private: //Tileset
 	List<uTile*> Tileset0;
+	List<uTile*> Tileset1;
+	List<uTile*> Tileset2;
+	List<uTile*> Tileset3;
 
-	uTile* GetTileFromXY(int x, int y);
+	uTile* GetTileFromXY(int x, int y, LevelAmplitude lvlAmp);
 	iPoint GetMousePosInTile();
 };
 

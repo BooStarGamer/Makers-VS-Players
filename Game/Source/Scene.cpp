@@ -167,8 +167,15 @@ void Scene::UpdateMainMenu()
 
 void Scene::UpdateEditor()
 {
-	sceneEditor->debugMargin = true;
-	sceneEditor->debugTileset = true;
+	if (app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	{
+		sceneEditor->debugMargin = !sceneEditor->debugMargin;
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
+	{
+		sceneEditor->debugTileset = !sceneEditor->debugTileset;
+	}
 	sceneEditor->Draw();
 
 	sceneEditor->CameraMove();
