@@ -46,7 +46,7 @@ bool Scene::Awake()
 
 bool Scene::Start()
 {
-	sceneEditor = new SceneEditor();
+	sceneEditor = new SceneEditor(LevelAmplitude::AMP0);
 
 	SetScene(LOGO_SCENE);
 
@@ -167,6 +167,9 @@ void Scene::UpdateEditor()
 {
 	sceneEditor->debugMargin = true;
 	sceneEditor->DrawGrid();
+
+	sceneEditor->CameraMove();
+	sceneEditor->LevelAmpLogic();
 }
 
 // GUI CONTROLS
