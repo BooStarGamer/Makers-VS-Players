@@ -168,6 +168,7 @@ void Scene::UpdateMainMenu()
 void Scene::UpdateEditor()
 {
 	sceneEditor->debugMargin = true;
+	sceneEditor->debugTileset = true;
 	sceneEditor->Draw();
 
 	sceneEditor->CameraMove();

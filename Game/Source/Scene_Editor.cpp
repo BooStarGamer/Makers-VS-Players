@@ -14,8 +14,16 @@ SceneEditor::SceneEditor()
 
 SceneEditor::SceneEditor(LevelAmplitude lvl)
 {
+
 	lvlAmp = lvl;
 
+	for (int x = 0; x < 25; x++)
+	{
+		for (int y = 0; y < 26; y++)
+		{
+			Tileset0.Add(new uTile({ TILE_SIZE * x + W_MARGIN, TILE_SIZE * y + H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, 41, 41 }, { x, y }));
+		}
+	}
 }
 
 SceneEditor::~SceneEditor()
@@ -25,18 +33,20 @@ SceneEditor::~SceneEditor()
 void SceneEditor::Draw()
 {
 	app->render->DrawTexture(background, W_MARGIN, H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2);
+
+	DebugTileset(AMP0, debugTileset);
+
 	DrawGrid();
 }
 
 void SceneEditor::CleanUp()
 {
-	app->tex->UnLoad(background);
+	if (background != nullptr)
+		app->tex->UnLoad(background);
 }
 
 void SceneEditor::DrawGrid()
 {
-	DebugMargin(debugMargin);
-
 	for (int i = 0; i < 26; i++)
 	{
 		app->render->DrawLine(W_MARGIN + (41 * i), H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, W_MARGIN + (41 * i), H_MARGIN + WIN_HEIGHT, { 255, 255, 255, 255 });
@@ -81,6 +91,8 @@ void SceneEditor::DrawGrid()
 			app->render->DrawLine(W_MARGIN + WIN_WIDTH * 3, H_MARGIN + (41 * i) - WIN_HEIGHT + TILE_SIZE * 2, WIN_WIDTH + W_MARGIN + WIN_WIDTH * 3, H_MARGIN + (41 * i) - WIN_HEIGHT + TILE_SIZE * 2, { 255, 255, 255, 255 });
 		}
 	}
+
+	DebugMargin(debugMargin);
 }
 
 void SceneEditor::CameraMove()
@@ -130,9 +142,68 @@ void SceneEditor::DebugMargin(bool debug)
 {
 	if (debug)
 	{
-		app->render->DrawLine(W_MARGIN, H_MARGIN, WIN_WIDTH + W_MARGIN, H_MARGIN, { 255, 255, 255, 100 }, false);
-		app->render->DrawLine(W_MARGIN, H_MARGIN, W_MARGIN, WIN_HEIGHT + H_MARGIN, { 255, 255, 255, 100 }, false);
-		app->render->DrawLine(W_MARGIN, WIN_HEIGHT + H_MARGIN, WIN_WIDTH + W_MARGIN, WIN_HEIGHT + H_MARGIN, { 255, 255, 255, 80 }, false);
-		app->render->DrawLine(WIN_WIDTH + W_MARGIN, H_MARGIN, WIN_WIDTH + W_MARGIN + 1, WIN_HEIGHT + H_MARGIN, { 255, 255, 255, 80 }, false);
+		app->render->DrawLine(W_MARGIN, H_MARGIN, WIN_WIDTH + W_MARGIN, H_MARGIN, { 0, 0, 0, 200 }, false);
+		app->render->DrawLine(W_MARGIN, H_MARGIN, W_MARGIN, WIN_HEIGHT + H_MARGIN, { 0, 0, 0, 200 }, false);
+		app->render->DrawLine(W_MARGIN, WIN_HEIGHT + H_MARGIN, WIN_WIDTH + W_MARGIN, WIN_HEIGHT + H_MARGIN, { 0, 0, 0, 200 }, false);
+		app->render->DrawLine(WIN_WIDTH + W_MARGIN, H_MARGIN, WIN_WIDTH + W_MARGIN + 1, WIN_HEIGHT + H_MARGIN, { 0, 0, 0, 200 }, false);
 	}
+}
+
+void SceneEditor::DebugTileset(LevelAmplitude lvlAmp, bool debug)
+{
+	if (debug)
+	{
+		iPoint mousePos = GetMousePosInTile();
+
+		if (lvlAmp == AMP0)
+		{
+			ListItem<uTile*>* list;
+			for (list = Tileset0.start; list != nullptr; list = list->next)
+			{
+				if (list->data == GetTileFromXY(mousePos.x, mousePos.y))
+				{
+					app->render->DrawRectangle(list->data->tileRect, { 200, 255, 100, 200 });
+				}
+				else
+				{
+					app->render->DrawRectangle(list->data->tileRect, { 255, 200, 100, 200 });
+				}
+			}
+		}
+	}
+}
+
+uTile* SceneEditor::GetTileFromXY(int x, int y)
+{
+	int floorX = floor(x / TILE_SIZE);
+	int floorY = floor(y / TILE_SIZE);
+
+	ListItem<uTile*>* list;
+	for (list = Tileset0.start; list != nullptr; list = list->next)
+	{
+		if (list->data->position.x == floorX && list->data->position.y == floorY)
+		{
+			return list->data;
+		}
+	}
+	return nullptr;
+}
+
+iPoint SceneEditor::GetMousePosInTile()
+{
+	iPoint pos;
+	app->input->GetMousePosition(pos.x, pos.y);
+	pos.x -= W_MARGIN;
+	pos.y += (WIN_HEIGHT - H_MARGIN - TILE_SIZE * 2);
+
+	pos.x -= app->render->camera.x;
+	pos.y -= app->render->camera.y;
+
+	return pos;
+}
+
+uTile::uTile(SDL_Rect r, iPoint pos)
+{
+	tileRect = r;
+	position = pos;
 }

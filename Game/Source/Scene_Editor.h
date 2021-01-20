@@ -1,6 +1,10 @@
 #ifndef __SCENEEDTIOR_H__
 #define __SCENEEDITOR_H__
 
+#include "Point.h"
+#include "List.h"
+#include "External/SDL/include/SDL.h"
+
 #define TILE_SIZE 41
 #define WIN_HEIGHT 574
 #define WIN_WIDTH 1024
@@ -18,15 +22,17 @@ enum LevelAmplitude
 	AMP3
 };
 
-struct Tile
+struct uTile
 {
+	uTile(SDL_Rect r, iPoint pos);
+
 	SDL_Rect tileRect;
 	iPoint position;
 };
 
 class SceneEditor
 {
-public:
+public: //Functions
 
 	SceneEditor();
 	SceneEditor(LevelAmplitude lvl);
@@ -40,18 +46,24 @@ public:
 	void CameraMove();
 	void LevelAmpLogic();
 
-private:
+private: //Functions
 	void DebugMargin(bool debug);
+	void SceneEditor::DebugTileset(LevelAmplitude lvlAmp, bool debug);
 
-public:
+public: // variables
 	bool debugMargin = false;
+	bool debugTileset = false;
 	SDL_Texture* background = nullptr;
 
-private:
+private: //Amplitude
 	LevelAmplitude lvlAmp;
 	int maxAmp[4] = {0, -WIN_WIDTH, -WIN_WIDTH * 2, -WIN_WIDTH * 3};
 
-	List<Tile*>* Tileset0;
+private: //Tileset
+	List<uTile*> Tileset0;
+
+	uTile* GetTileFromXY(int x, int y);
+	iPoint GetMousePosInTile();
 };
 
 #endif // __SCENEEDITOR_H__
