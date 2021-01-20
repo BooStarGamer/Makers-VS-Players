@@ -9,11 +9,14 @@ class GuiCheckBox;
 class GuiString;
 struct SDL_Texture;
 
+class SceneEditor;
+
 enum Scenes
 {
 	NONE = -1,
 	LOGO_SCENE,
-	MAIN_MENU
+	MAIN_MENU,
+	EDITOR_SCENE
 };
 
 class Scene : public Module
@@ -42,6 +45,9 @@ public:
 	}
 
 private: //Scene Manager
+
+	SceneEditor* sceneEditor;
+
 	Scenes currScene = NONE;
 	Scenes prevScene = NONE;
 
@@ -50,10 +56,12 @@ private: //Scene Manager
 	//Setters
 	void SetLogoScene();
 	void SetMainMenu();
+	void SetEditor();
 
 	//Updaters
 	void UpdateLogoScene();
 	void UpdateMainMenu();
+	void UpdateEditor();
 
 
 private:

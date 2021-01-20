@@ -1,5 +1,6 @@
 #include "App.h"
 #include "Scene.h"
+#include "Scene_Editor.h"
 
 #include "Input.h"
 #include "Textures.h"
@@ -30,7 +31,10 @@ Scene::Scene() : Module()
 }
 
 Scene::~Scene()
-{}
+{
+	delete sceneEditor;
+	sceneEditor = nullptr;
+}
 
 bool Scene::Awake()
 {
@@ -42,6 +46,8 @@ bool Scene::Awake()
 
 bool Scene::Start()
 {
+	sceneEditor = new SceneEditor();
+
 	SetScene(LOGO_SCENE);
 
 	return true;
@@ -96,6 +102,7 @@ bool Scene::Update(float dt)
 
 	if (currScene == LOGO_SCENE) UpdateLogoScene();
 	else if (currScene == MAIN_MENU) UpdateMainMenu();
+	else if (currScene == EDITOR_SCENE) UpdateEditor();
 
 	return true;
 }
@@ -127,6 +134,7 @@ void Scene::SetScene(Scenes scene)
 
 	if (scene == LOGO_SCENE) SetLogoScene();
 	else if (scene == MAIN_MENU) SetMainMenu();
+	else if (scene == EDITOR_SCENE) SetMainMenu();
 
 }
 
@@ -140,14 +148,25 @@ void Scene::SetMainMenu()
 
 }
 
-void Scene::UpdateLogoScene()
+void Scene::SetEditor()
 {
 
 }
 
+void Scene::UpdateLogoScene()
+{
+	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) SetScene(MAIN_MENU);
+}
+
 void Scene::UpdateMainMenu()
 {
+	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) SetScene(EDITOR_SCENE);
+}
 
+void Scene::UpdateEditor()
+{
+	sceneEditor->debugMargin = true;
+	sceneEditor->DrawGrid();
 }
 
 // GUI CONTROLS
