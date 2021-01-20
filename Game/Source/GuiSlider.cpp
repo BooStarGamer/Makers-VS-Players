@@ -11,6 +11,7 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
 
 GuiSlider::~GuiSlider()
 {
+    delete &text;
 }
 
 bool GuiSlider::Update(float dt)

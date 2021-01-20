@@ -1,4 +1,5 @@
 #include "GuiString.h"
+#include "Textures.h"
 
 GuiString::GuiString(uint32 id, SDL_Rect bounds, const char* text, _TTF_Font* textFont) : GuiControl(GuiControlType::TEXT, id)
 {
@@ -15,6 +16,8 @@ GuiString::GuiString() : GuiControl(GuiControlType::TEXT, id), textFont(app->fon
 
 GuiString::~GuiString()
 {
+	app->tex->UnLoad(textTexture);
+	delete &text;
 }
 
 void GuiString::Draw()

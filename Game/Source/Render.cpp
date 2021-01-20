@@ -1,6 +1,7 @@
 #include "App.h"
 #include "Window.h"
 #include "Render.h"
+#include "Input.h"
 #include "Defs.h"
 #include "Log.h"
 
@@ -65,6 +66,14 @@ bool Render::PreUpdate()
 
 bool Render::Update(float dt)
 {
+	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	{
+		if (vSync) SetVSync(false);
+		else if (!vSync) SetVSync(true);
+
+		vSync = !vSync;
+	}
+
 	return true;
 }
 

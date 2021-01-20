@@ -16,6 +16,8 @@ public:
 
 	bool Awake(pugi::xml_node&);
 
+	bool FullScreenLogic();
+
 	bool CleanUp();
 
 	void SetTitle(const char* title);
@@ -24,10 +26,14 @@ public:
 
 	uint GetScale() const;
 
+	void SetWinFullScreen(bool fullScreen);
+
 public:
 	SDL_Window* window;
 
 	SDL_Surface* screenSurface;
+
+	bool fullScreen;
 
 private:
 	SString title;

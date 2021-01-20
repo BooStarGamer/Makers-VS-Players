@@ -11,6 +11,7 @@ GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text) : GuiCont
 
 GuiCheckBox::~GuiCheckBox()
 {
+    delete &text;
 }
 
 bool GuiCheckBox::Update(float dt)

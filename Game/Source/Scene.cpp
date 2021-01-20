@@ -104,6 +104,8 @@ bool Scene::PostUpdate()
 {
 	bool ret = true;
 
+	app->win->FullScreenLogic();
+
 	return ret;
 }
 
@@ -154,24 +156,10 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 {
 	switch (currScene)
 	{
-	case MAIN_MENU:
-					/*if (vSyncCheckBox->GetCheckedState())
-					{
-						app->render->SetVSync(true);
-					}
-					else if (!vSyncCheckBox->GetCheckedState())
-					{
-						app->render->SetVSync(false);
-					}*/
+	case LOGO_SCENE:
+		break;
 
-					/*if (fullScreenCheckBox->GetCheckedState())
-					{
-						app->win->SetWinFullScreen(true);
-					}
-					else if (!fullScreenCheckBox->GetCheckedState())
-					{
-						app->win->SetWinFullScreen(false);
-					}*/
+	case MAIN_MENU:
 		break;
 	}
 
