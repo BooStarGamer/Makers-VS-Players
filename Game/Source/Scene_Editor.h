@@ -30,9 +30,9 @@ enum LevelAmplitude
 	AMP3
 };
 
-struct debugTile
+struct DebugTile
 {
-	debugTile(SDL_Rect r, iPoint pos);
+	DebugTile(SDL_Rect r, iPoint pos);
 
 	SDL_Rect tileRect;
 	iPoint position;
@@ -61,9 +61,10 @@ private:
 	void DrawGrid();
 	void DrawTiles();
 	void PlaceTile(TileType type, int x, int y);
-	debugTile* GetTileFromXY(int x, int y, LevelAmplitude lvlAmp);
+	DebugTile* GetTileFromXY(int x, int y, LevelAmplitude lvlAmp);
 	iPoint GetMousePosInTile();
 	iPoint GetMouseCoordInTile();
+	iPoint GetPosFromCoords(iPoint coords);
 
 private: //Debug Functions
 	void DebugMargin(bool debug);
@@ -89,10 +90,10 @@ private:
 	List<GroundTile*> groundTiles;
 
 private: //Debug Tileset
-	List<debugTile*> Tileset0;
-	List<debugTile*> Tileset1;
-	List<debugTile*> Tileset2;
-	List<debugTile*> Tileset3;
+	List<DebugTile*> Tileset0;
+	List<DebugTile*> Tileset1;
+	List<DebugTile*> Tileset2;
+	List<DebugTile*> Tileset3;
 //Lists--------------
 };
 

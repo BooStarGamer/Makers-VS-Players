@@ -25,6 +25,7 @@ private:
 	SDL_Texture* groundTex;
 	SDL_Rect groundRect = {0, 0, 41, 41};
 	iPoint position = {0, 0};
+	iPoint coordinates = {0, 0};
 	SDL_Rect typeRect = {0, 0, 41, 41};
 };
 
