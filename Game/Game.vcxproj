@@ -93,6 +93,7 @@
     <ClCompile Include="Source\EntityManager.cpp" />
     <ClCompile Include="Source\Font.cpp" />
     <ClCompile Include="Source\FontTTF.cpp" />
+    <ClCompile Include="Source\Ground_Tile.cpp" />
     <ClCompile Include="Source\GuiButton.cpp" />
     <ClCompile Include="Source\GuiCheckBox.cpp" />
     <ClCompile Include="Source\GuiManager.cpp" />
@@ -118,6 +119,7 @@
     <ClInclude Include="Source\EntityManager.h" />
     <ClInclude Include="Source\Font.h" />
     <ClInclude Include="Source\FontTTF.h" />
+    <ClInclude Include="Source\Ground_Tile.h" />
     <ClInclude Include="Source\GuiButton.h" />
     <ClInclude Include="Source\GuiCheckBox.h" />
     <ClInclude Include="Source\GuiControl.h" />

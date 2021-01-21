@@ -75,6 +75,9 @@
     <ClCompile Include="Source\Scene_Editor.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Ground_Tile.cpp">
+      <Filter>Tiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -183,6 +186,9 @@
     <ClInclude Include="Source\Scene_Editor.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Ground_Tile.h">
+      <Filter>Tiles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -205,6 +211,9 @@
     </Filter>
     <Filter Include="Scenes">
       <UniqueIdentifier>{3ed4a5d6-0e62-404d-b40b-cef602e825fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tiles">
+      <UniqueIdentifier>{eab38452-dd37-4ee0-ad38-4f86052d8e8c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

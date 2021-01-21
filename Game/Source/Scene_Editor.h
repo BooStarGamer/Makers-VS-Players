@@ -5,6 +5,8 @@
 #include "List.h"
 #include "External/SDL/include/SDL.h"
 
+#include "Ground_Tile.h"
+
 #define TILE_SIZE 41
 #define WIN_HEIGHT 574
 #define WIN_WIDTH 1024
@@ -13,6 +15,12 @@
 
 struct SDL_Texture;
 struct SDL_Rect;
+class GroundTile;
+
+enum TileType
+{
+	GROUND
+};
 
 enum LevelAmplitude
 {
@@ -22,9 +30,9 @@ enum LevelAmplitude
 	AMP3
 };
 
-struct uTile
+struct debugTile
 {
-	uTile(SDL_Rect r, iPoint pos);
+	debugTile(SDL_Rect r, iPoint pos);
 
 	SDL_Rect tileRect;
 	iPoint position;
@@ -40,33 +48,52 @@ public: //Functions
 	virtual ~SceneEditor();
 
 	void Draw();
+
 	void CleanUp();
 
-	void DrawGrid();
-	void CameraMove();
+//Functions----------
+public:
+	void CameraMoveLogic();
 	void LevelAmpLogic();
+	void PlaceTileLogic();
 
-private: //Functions
+private:
+	void DrawGrid();
+	void DrawTiles();
+	void PlaceTile(TileType type, int x, int y);
+	debugTile* GetTileFromXY(int x, int y, LevelAmplitude lvlAmp);
+	iPoint GetMousePosInTile();
+	iPoint GetMouseCoordInTile();
+
+private: //Debug Functions
 	void DebugMargin(bool debug);
-	void SceneEditor::DebugTileset(LevelAmplitude lvlAmp, bool debug);
+	void DebugTileset(LevelAmplitude lvlAmp, bool debug);
+//Functions----------
 
-public: // variables
+//Variables----------
+public:
 	bool debugMargin = true;
 	bool debugTileset = false;
 	SDL_Texture* background = nullptr;
+
+private:
+	TileType selectedTile;
+//Variables----------
 
 private: //Amplitude
 	LevelAmplitude lvlAmp;
 	int maxAmp[4] = {0, -WIN_WIDTH, -WIN_WIDTH * 2, -WIN_WIDTH * 3};
 
-private: //Tileset
-	List<uTile*> Tileset0;
-	List<uTile*> Tileset1;
-	List<uTile*> Tileset2;
-	List<uTile*> Tileset3;
+//Lists--------------
+private:
+	List<GroundTile*> groundTiles;
 
-	uTile* GetTileFromXY(int x, int y, LevelAmplitude lvlAmp);
-	iPoint GetMousePosInTile();
+private: //Debug Tileset
+	List<debugTile*> Tileset0;
+	List<debugTile*> Tileset1;
+	List<debugTile*> Tileset2;
+	List<debugTile*> Tileset3;
+//Lists--------------
 };
 
 #endif // __SCENEEDITOR_H__
