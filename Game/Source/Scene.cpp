@@ -152,6 +152,7 @@ void Scene::SetMainMenu()
 
 void Scene::SetEditor()
 {
+	player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
 	sceneEditor->background = app->tex->Load("Assets/Textures/static_background.png");
 }
 
@@ -181,6 +182,7 @@ void Scene::UpdateEditor()
 
 	sceneEditor->CameraMoveLogic();
 	sceneEditor->LevelAmpLogic();
+	sceneEditor->TileSelectedLogic();
 
 	sceneEditor->PlaceTileLogic();
 }

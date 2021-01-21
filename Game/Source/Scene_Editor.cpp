@@ -14,7 +14,6 @@ SceneEditor::SceneEditor()
 
 SceneEditor::SceneEditor(LevelAmplitude lvl)
 {
-
 	lvlAmp = lvl;
 
 	for (int x = 0; x < 25; x++)
@@ -123,9 +122,6 @@ void SceneEditor::CameraMoveLogic()
 	{
 		if (app->render->camera.y > 0) app->render->camera.y -= 3;
 	}
-
-	LOG("CAM: %d", app->render->camera.y);
-	LOG("MAX: %d", WIN_HEIGHT - H_MARGIN);
 }
 
 void SceneEditor::LevelAmpLogic()
@@ -153,26 +149,30 @@ void SceneEditor::PlaceTileLogic()
 
 		iPoint pos = GetPosFromCoords(coords);
 
-		bool existent = false;
-		ListItem<GroundTile*>* list;
+		PlaceTile(selectedTile, pos, coords);
+	}
+}
+
+void SceneEditor::TileSelectedLogic()
+{
+	if (app->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN) selectedTile = NO_TILE;
+	else if (app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) selectedTile = GROUND;
+}
+
+void SceneEditor::PlaceTile(TileType type, iPoint pos, iPoint coords)
+{
+	bool existent = false;
+	ListItem<GroundTile*>* list;
+
+	if (type == GROUND)
+	{
 		for (list = groundTiles.start; list != nullptr; list = list->next)
 		{
 			if (list->data->GetCoords() == coords) existent = true;
 		}
 
-		if (!existent)
-		{
-			PlaceTile(selectedTile, pos, coords);
-		}
+		if (!existent) groundTiles.Add(new GroundTile(pos, coords));
 	}
-}
-
-void SceneEditor::PlaceTile(TileType type, iPoint pos, iPoint coords)
-{
-	//if (type == GROUND)
-	//{
-		groundTiles.Add(new GroundTile(pos, coords));
-	//}
 }
 
 void SceneEditor::DebugMargin(bool debug)

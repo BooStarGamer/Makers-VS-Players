@@ -10,6 +10,7 @@ class GuiString;
 struct SDL_Texture;
 
 class SceneEditor;
+class Player;
 
 enum Scenes
 {
@@ -47,6 +48,7 @@ public:
 private: //Scene Manager
 
 	SceneEditor* sceneEditor;
+	Player* player;
 
 	Scenes currScene = NONE;
 	Scenes prevScene = NONE;
@@ -64,10 +66,8 @@ private: //Scene Manager
 	void UpdateEditor();
 
 
-private:
+private: //GUI
 	bool OnGuiMouseClickEvent(GuiControl* control);
-
-	GuiSlider* testSlider;
 };
 
 #endif // __SCENE_H__

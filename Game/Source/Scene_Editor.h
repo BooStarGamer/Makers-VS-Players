@@ -19,6 +19,7 @@ class GroundTile;
 
 enum TileType
 {
+	NO_TILE = -1,
 	GROUND
 };
 
@@ -56,6 +57,7 @@ public:
 	void CameraMoveLogic();
 	void LevelAmpLogic();
 	void PlaceTileLogic();
+	void TileSelectedLogic();
 
 private:
 	void DrawGrid();
@@ -78,7 +80,7 @@ public:
 	SDL_Texture* background = nullptr;
 
 private:
-	TileType selectedTile;
+	TileType selectedTile = NO_TILE;
 //Variables----------
 
 private: //Amplitude
