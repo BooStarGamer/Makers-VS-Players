@@ -2,13 +2,12 @@
 #define __PLAYER_H__
 
 #include "Entity.h"
-#include "Input.h"
-#include "Render.h"
 
 #include "Point.h"
 #include "SString.h"
 
 #include "SDL/include/SDL.h"
+struct SDL_Rect;
 
 enum class PlayerAnim
 {
@@ -24,13 +23,22 @@ public:
 
     Player();
 
-    bool Update(Input* input, float dt);
+    bool Update(float dt);
 
-    bool Draw(Render* render);
+    bool Draw();
 
     void SetTexture(SDL_Texture *tex);
 
-    SDL_Rect GetBounds();
+    void CollisionLogic();
+
+    SDL_Rect GetBounds() const
+    {
+        return collider;
+    }
+
+private:
+    bool CheckCollision(SDL_Rect collision);
+    void UpdatePlayerPos();
 
 public:
 
@@ -38,6 +46,8 @@ public:
 
     // TODO: Define all animation properties
     PlayerAnim currentAnim;
+
+    SDL_Rect collider;
 
     int width, height;
 

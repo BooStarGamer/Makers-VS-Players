@@ -159,6 +159,11 @@ void SceneEditor::TileSelectedLogic()
 	else if (app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) selectedTile = GROUND;
 }
 
+void SceneEditor::EditModeLogic()
+{
+	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN) editMode = !editMode;
+}
+
 void SceneEditor::PlaceTile(TileType type, iPoint pos, iPoint coords)
 {
 	bool existent = false;

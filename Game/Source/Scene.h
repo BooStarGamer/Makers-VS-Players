@@ -40,12 +40,15 @@ public:
 
 	bool CleanUp();
 
+public: // Getters
+
 	Scenes GetCurrScene() const
 	{
 		return currScene;
 	}
 
 private: //Scene Manager
+	friend class Player;
 
 	SceneEditor* sceneEditor;
 	Player* player;

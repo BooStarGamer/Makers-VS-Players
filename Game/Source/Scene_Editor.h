@@ -58,6 +58,7 @@ public:
 	void LevelAmpLogic();
 	void PlaceTileLogic();
 	void TileSelectedLogic();
+	void EditModeLogic();
 
 private:
 	void DrawGrid();
@@ -67,6 +68,12 @@ private:
 	iPoint GetMousePosInTile();
 	iPoint GetMouseCoordInTile();
 	iPoint GetPosFromCoords(iPoint coords);
+
+public: //Getters
+	bool GetEditMode() const
+	{
+		return editMode;
+	}
 
 private: //Debug Functions
 	void DebugMargin(bool debug);
@@ -80,6 +87,7 @@ public:
 	SDL_Texture* background = nullptr;
 
 private:
+	bool editMode = true;
 	TileType selectedTile = NO_TILE;
 //Variables----------
 
@@ -88,7 +96,7 @@ private: //Amplitude
 	int maxAmp[4] = {0, -WIN_WIDTH, -WIN_WIDTH * 2, -WIN_WIDTH * 3};
 
 //Lists--------------
-private:
+public:
 	List<GroundTile*> groundTiles;
 
 private: //Debug Tileset

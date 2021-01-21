@@ -11,6 +11,7 @@
 #include "Pathfinding.h"
 #include "EntityManager.h"
 #include "Entity.h"
+#include "Player.h"
 
 #include "GuiManager.h"
 #include "GuiString.h"
@@ -153,6 +154,7 @@ void Scene::SetMainMenu()
 void Scene::SetEditor()
 {
 	player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
+	player->position = {W_MARGIN, 200};
 	sceneEditor->background = app->tex->Load("Assets/Textures/static_background.png");
 }
 
@@ -183,8 +185,11 @@ void Scene::UpdateEditor()
 	sceneEditor->CameraMoveLogic();
 	sceneEditor->LevelAmpLogic();
 	sceneEditor->TileSelectedLogic();
-
 	sceneEditor->PlaceTileLogic();
+	sceneEditor->EditModeLogic();
+
+	player->Update(1.0f);
+	player->Draw();
 }
 
 // GUI CONTROLS

@@ -21,9 +21,14 @@ public: //Functions
 
 	void TypeGroundLogic();
 
-	iPoint GetCoords()
+	iPoint GetCoords() const
 	{
 		return coordinates;
+	}
+
+	SDL_Rect GetRect() const
+	{
+		return groundRect;
 	}
 
 private:
