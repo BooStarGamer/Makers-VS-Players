@@ -27,36 +27,45 @@ bool Player::Update(float dt)
 
     UpdatePlayerPos();
 
-    if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+    if (!app->scene->sceneEditor->GetEditMode())
     {
+        if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+        {
+            collider.x -= (PLAYER_MOVE_SPEED * dt);
+            if (!CollisionLogic())
+            {
+                position.x = collider.x;
+            }
+            else
+            {
+                collider.x = position.x;
+            }
+        }
 
+        if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+        {
+            collider.x += (PLAYER_MOVE_SPEED * dt);
+            if (!CollisionLogic())
+            {
+                position.x = collider.x;
+            }
+            else
+            {
+                collider.x = position.x;
+            }
+        }
+
+        if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) collider.y -= (PLAYER_JUMP_SPEED * dt);
+
+        Gravity(dt);
     }
-
-    //if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) collider.x -= (PLAYER_MOVE_SPEED * dt);
-    //if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) collider.x += (PLAYER_MOVE_SPEED * dt);
-
-    //if (app->scene->sceneEditor->GetEditMode())
-    //{
-    //    if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) collider.y -= (PLAYER_MOVE_SPEED * dt);
-    //    if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) collider.y += (PLAYER_MOVE_SPEED * dt);
-    //}
-    //else
-    //{
-    //    if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) collider.y -= (PLAYER_JUMP_SPEED * dt);
-    //}
-
-    //// Calculate gravity acceleration
-    //if (!app->scene->sceneEditor->GetEditMode())
-    //{
-    //    if (jumpSpeed < 10) jumpSpeed += GRAVITY * dt;
-    //    collider.y += (jumpSpeed * dt);
-    //}
-    //else // In EDIT MODE
-    //{
-    //    UpdatePlayerPos();
-    //}
-
-    //CollisionLogic();
+    else
+    {
+        if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) collider.x -= (PLAYER_MOVE_SPEED * dt);
+        if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) collider.x += (PLAYER_MOVE_SPEED * dt);
+        if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) collider.y -= (PLAYER_MOVE_SPEED * dt);
+        if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) collider.y += (PLAYER_MOVE_SPEED * dt);
+    }
 
     return true;
 }
@@ -78,22 +87,32 @@ void Player::SetTexture(SDL_Texture *tex)
     texture = tex;
 }
 
-void Player::CollisionLogic()
+void Player::Gravity(float dt)
+{
+    if (jumpSpeed < 10) jumpSpeed += GRAVITY * dt;
+    collider.y += (jumpSpeed * dt);
+    if (!CollisionLogic())
+    {
+        position.y = collider.y;
+    }
+    else
+    {
+        collider.y = position.y;
+    }
+}
+
+bool Player::CollisionLogic()
 {
     ListItem<GroundTile*>* list;
     for (list = app->scene->sceneEditor->groundTiles.start; list != nullptr; list = list->next)
     {
         if (CheckCollision(list->data->GetRect()))
         {
-            collider.x = position.x;
-            collider.y = position.y;
-            jumpSpeed = 2.0f;
-        }
-        else
-        {
-            UpdatePlayerPos();
+            return true;
         }
     }
+
+    return false;
 }
 
 bool Player::CheckCollision(SDL_Rect collision)

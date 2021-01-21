@@ -29,7 +29,9 @@ public:
 
     void SetTexture(SDL_Texture *tex);
 
-    void CollisionLogic();
+    void Gravity(float dt);
+
+    bool CollisionLogic();
 
     SDL_Rect GetBounds() const
     {
