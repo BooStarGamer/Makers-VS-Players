@@ -8,12 +8,12 @@ GroundTile::GroundTile()
 
 }
 
-GroundTile::GroundTile(int x, int y)
+GroundTile::GroundTile(iPoint pos, iPoint coords)
 {
 	groundTex = app->tex->Load("Assets/Tilesets/ground_tileset.png");
-	position.x = x;
-	position.y = y;
-	groundRect = {x, y, 41, 41};
+	position = pos;
+	coordinates = coords;
+	groundRect = {pos.x, pos.y, 41, 41};
 }
 
 GroundTile::~GroundTile()

@@ -13,13 +13,18 @@ public: //Functions
 
 	GroundTile();
 
-	GroundTile(int x, int y);
+	GroundTile(iPoint pos, iPoint coords);
 
 	virtual ~GroundTile();
 
 	void Draw();
 
 	void TypeGroundLogic();
+
+	iPoint GetCoords()
+	{
+		return coordinates;
+	}
 
 private:
 	SDL_Texture* groundTex;

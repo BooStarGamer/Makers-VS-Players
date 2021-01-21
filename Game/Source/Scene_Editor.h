@@ -60,7 +60,7 @@ public:
 private:
 	void DrawGrid();
 	void DrawTiles();
-	void PlaceTile(TileType type, int x, int y);
+	void PlaceTile(TileType type, iPoint pos, iPoint coords);
 	DebugTile* GetTileFromXY(int x, int y, LevelAmplitude lvlAmp);
 	iPoint GetMousePosInTile();
 	iPoint GetMouseCoordInTile();

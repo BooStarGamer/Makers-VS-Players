@@ -151,17 +151,27 @@ void SceneEditor::PlaceTileLogic()
 	{
 		iPoint coords = GetMouseCoordInTile();
 
-		coords = GetPosFromCoords(coords);
+		iPoint pos = GetPosFromCoords(coords);
 
-		PlaceTile(selectedTile, coords.x, coords.y);
+		bool existent = false;
+		ListItem<GroundTile*>* list;
+		for (list = groundTiles.start; list != nullptr; list = list->next)
+		{
+			if (list->data->GetCoords() == coords) existent = true;
+		}
+
+		if (!existent)
+		{
+			PlaceTile(selectedTile, pos, coords);
+		}
 	}
 }
 
-void SceneEditor::PlaceTile(TileType type, int x, int y)
+void SceneEditor::PlaceTile(TileType type, iPoint pos, iPoint coords)
 {
 	//if (type == GROUND)
 	//{
-		groundTiles.Add(new GroundTile(x, y));
+		groundTiles.Add(new GroundTile(pos, coords));
 	//}
 }
 
@@ -366,6 +376,9 @@ iPoint SceneEditor::GetMouseCoordInTile()
 	app->input->GetMousePosition(pos.x, pos.y);
 	pos.x -= W_MARGIN;
 	pos.y += (WIN_HEIGHT - H_MARGIN - TILE_SIZE * 2);
+
+	pos.x -= app->render->camera.x;
+	pos.y -= app->render->camera.y;
 
 	pos.x = floor(pos.x / TILE_SIZE);
 	pos.y = floor(pos.y / TILE_SIZE);
