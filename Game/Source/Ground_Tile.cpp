@@ -1,5 +1,7 @@
 #include "App.h"
 #include "Render.h"
+#include "Scene.h"
+#include "Scene_Editor.h"
 #include "Textures.h"
 #include "Ground_Tile.h"
 
@@ -22,6 +24,18 @@ GroundTile::~GroundTile()
 
 void GroundTile::Draw()
 {
-	app->render->DrawTexture(groundTex, position.x, position.y, &typeRect);
-	app->render->DrawRectangle(groundRect, {30, 30, 200, 100});
+	iPoint upTile = { coordinates.x, coordinates.y - 1 };
+	ListItem<GroundTile*>* list;
+	for (list = app->scene->sceneEditor->groundTiles.start; list != nullptr; list = list->next)
+	{
+		if (list->data->coordinates == upTile)
+		{
+			app->render->DrawTexture(groundTex, position.x, position.y, &ground2);
+			break;
+		}
+		else
+		{
+			app->render->DrawTexture(groundTex, position.x, position.y, &ground1);
+		}
+	}
 }

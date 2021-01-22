@@ -41,8 +41,16 @@ public:
 private:
     bool CheckCollision(SDL_Rect collision);
     void UpdatePlayerPos();
+    void Jump();
+    void ResetJump();
+
+private:
+    bool jump;
+    bool ground;
 
 public:
+
+
 
     SDL_Texture* texture;   // Player spritesheet
 
@@ -52,6 +60,8 @@ public:
     SDL_Rect collider;
 
     int width, height;
+
+    int jumpForce = 52;
 
     float jumpSpeed = 0.0f;
     bool readyToJump = true;

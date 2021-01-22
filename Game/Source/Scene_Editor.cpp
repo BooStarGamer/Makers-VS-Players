@@ -36,11 +36,11 @@ void SceneEditor::Draw()
 {
 	app->render->DrawTexture(background, W_MARGIN, H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2);
 
-	DebugTileset(lvlAmp, debugTileset);
+	if (editMode) DebugTileset(lvlAmp, debugTileset);
 
 	DrawTiles();
 
-	DrawGrid();
+	if (editMode) DrawGrid();
 }
 
 void SceneEditor::CleanUp()
@@ -126,37 +126,46 @@ void SceneEditor::CameraMoveLogic()
 
 void SceneEditor::LevelAmpLogic()
 {
-	if (app->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
+	if (editMode)
 	{
-		if (lvlAmp != AMP3) lvlAmp = (LevelAmplitude)((int)lvlAmp + 1);
-	}
+		if (app->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
+		{
+			if (lvlAmp != AMP3) lvlAmp = (LevelAmplitude)((int)lvlAmp + 1);
+		}
 
-	if (app->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN)
-	{
-		if (lvlAmp != AMP0) lvlAmp = (LevelAmplitude)((int)lvlAmp - 1);
+		if (app->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN)
+		{
+			if (lvlAmp != AMP0) lvlAmp = (LevelAmplitude)((int)lvlAmp - 1);
 
-		if (lvlAmp == AMP2 && app->render->camera.x < maxAmp[AMP2]) app->render->camera.x = maxAmp[AMP2];
-		else if (lvlAmp == AMP1 && app->render->camera.x < maxAmp[AMP1]) app->render->camera.x = maxAmp[AMP1];
-		else if (lvlAmp == AMP0 && app->render->camera.x < maxAmp[AMP0]) app->render->camera.x = maxAmp[AMP0];
+			if (lvlAmp == AMP2 && app->render->camera.x < maxAmp[AMP2]) app->render->camera.x = maxAmp[AMP2];
+			else if (lvlAmp == AMP1 && app->render->camera.x < maxAmp[AMP1]) app->render->camera.x = maxAmp[AMP1];
+			else if (lvlAmp == AMP0 && app->render->camera.x < maxAmp[AMP0]) app->render->camera.x = maxAmp[AMP0];
+		}
 	}
 }
 
 void SceneEditor::PlaceTileLogic()
 {
-	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
+	if (editMode)
 	{
-		iPoint coords = GetMouseCoordInTile();
+		if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
+		{
+			iPoint coords = GetMouseCoordInTile();
 
-		iPoint pos = GetPosFromCoords(coords);
+			iPoint pos = GetPosFromCoords(coords);
 
-		PlaceTile(selectedTile, pos, coords);
+			PlaceTile(selectedTile, pos, coords);
+		}
 	}
 }
 
 void SceneEditor::TileSelectedLogic()
 {
-	if (app->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN) selectedTile = NO_TILE;
-	else if (app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) selectedTile = GROUND;
+	if (editMode)
+	{
+		if (app->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN) selectedTile = NO_TILE;
+		else if (app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) selectedTile = GROUND;
+	}
 }
 
 void SceneEditor::EditModeLogic()
@@ -179,6 +188,8 @@ void SceneEditor::PlaceTile(TileType type, iPoint pos, iPoint coords)
 		if (!existent) groundTiles.Add(new GroundTile(pos, coords));
 	}
 }
+
+// DEBUG FUNCTIONS
 
 void SceneEditor::DebugMargin(bool debug)
 {
@@ -296,6 +307,15 @@ void SceneEditor::DebugTileset(LevelAmplitude lvlAmp, bool debug)
 	}
 }
 
+void SceneEditor::DrawTiles()
+{
+	ListItem<GroundTile*>* list;
+	for (list = groundTiles.start; list != nullptr; list = list->next)
+	{
+		list->data->Draw();
+	}
+}
+
 // ADDITIONAL FUNCTIONS
 
 DebugTile* SceneEditor::GetTileFromXY(int x, int y, LevelAmplitude lvlAmp)
@@ -389,15 +409,6 @@ iPoint SceneEditor::GetMouseCoordInTile()
 	pos.y = floor(pos.y / TILE_SIZE);
 
 	return pos;
-}
-
-void SceneEditor::DrawTiles()
-{
-	ListItem<GroundTile*>* list;
-	for (list = groundTiles.start; list != nullptr; list = list->next)
-	{
-		list->data->Draw();
-	}
 }
 
 DebugTile::DebugTile(SDL_Rect r, iPoint pos)

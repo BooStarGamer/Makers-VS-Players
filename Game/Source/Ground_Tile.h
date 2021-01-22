@@ -36,7 +36,8 @@ private:
 	SDL_Rect groundRect = {0, 0, 41, 41};
 	iPoint position = {0, 0};
 	iPoint coordinates = {0, 0};
-	SDL_Rect typeRect = {0, 0, 41, 41};
+	SDL_Rect ground1 = {0, 0, 41, 41};
+	SDL_Rect ground2 = { 41, 0, 41, 41 };
 };
 
 #endif // __GROUNDTILE_H__
