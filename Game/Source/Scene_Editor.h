@@ -93,6 +93,8 @@ public:
 private:
 	bool editMode = true;
 	TileType selectedTile = NO_TILE;
+	int YCamHigh = 180;
+	int YCamLow = 540;
 //Variables----------
 
 private: //Amplitude

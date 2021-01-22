@@ -42,6 +42,18 @@ void SceneEditor::Draw()
 
 	DrawTiles();
 
+	if (!editMode)
+	{
+		app->render->DrawLine(W_MARGIN, YCamHigh, W_MARGIN + WIN_WIDTH, YCamHigh, { 100, 255, 255, 255 });
+	}
+	if (!editMode)
+	{
+		app->render->DrawLine(W_MARGIN, YCamLow, W_MARGIN + WIN_WIDTH, YCamLow, { 100, 255, 255, 255 });
+	}
+	if (!editMode)
+	{
+		app->render->DrawLine(W_MARGIN, UP_MAXIMUM + 180, W_MARGIN + WIN_WIDTH, UP_MAXIMUM + 180, { 250, 100, 100, 255 });
+	}
 	if (editMode) DrawGrid();
 }
 
@@ -129,9 +141,25 @@ void SceneEditor::CameraMoveLogic()
 	}
 	else
 	{
-		if (app->scene->player->position.y < (0 + 180) && app->scene->player->position.y >(UP_MAXIMUM + H_MARGIN + 180))
+		LOG("YH: %d, YL: %d", YCamHigh, YCamLow);
+		LOG("POS: %d", app->scene->player->position.y);
+		if (app->scene->player->position.y + app->scene->player->collider.h < (540 - H_MARGIN) && app->scene->player->position.y > (UP_MAXIMUM + 180))
 		{
-			app->render->camera.y = -(app->scene->player->position.y - 180 - H_MARGIN);
+			iPoint pos = app->scene->player->position;
+			iPoint size = { app->scene->player->collider.w, app->scene->player->collider.h };
+
+			if (pos.y < YCamHigh)
+			{
+				YCamHigh = pos.y;
+				YCamLow = YCamHigh + 360;
+				app->render->camera.y = -1 * (YCamHigh - 180);
+			}
+			else if ((pos.y + size.y) > YCamLow)
+			{
+				YCamLow = pos.y + size.y;
+				YCamHigh = YCamLow - 360;
+				app->render->camera.y = -1 * (YCamHigh - 180);
+			}
 		}
 
 		if (lvlAmp >= 0)
@@ -206,6 +234,8 @@ void SceneEditor::EditModeLogic()
 	{
 		app->render->camera.y += H_MARGIN;
 		app->render->camera.x -= W_MARGIN;
+		YCamHigh = -app->render->camera.y + 180;
+		YCamLow = -app->render->camera.y + 540;
 	}
 	else if (editMode)
 	{

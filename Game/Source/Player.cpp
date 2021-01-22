@@ -115,10 +115,10 @@ bool Player::Update(float dt)
     }
     else
     {
-        if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) collider.x -= (PLAYER_MOVE_SPEED * 2 * dt);
-        if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) collider.x += (PLAYER_MOVE_SPEED * 2 * dt);
-        if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) collider.y -= (PLAYER_MOVE_SPEED * 2 * dt);
-        if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) collider.y += (PLAYER_MOVE_SPEED * 2 * dt);
+        if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) collider.x -= (PLAYER_MOVE_SPEED * dt);
+        if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) collider.x += (PLAYER_MOVE_SPEED * dt);
+        if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) collider.y -= (PLAYER_MOVE_SPEED * dt);
+        if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) collider.y += (PLAYER_MOVE_SPEED * dt);
     }
 
     return true;
