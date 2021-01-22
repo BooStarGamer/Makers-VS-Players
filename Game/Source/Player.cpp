@@ -115,8 +115,8 @@ bool Player::Update(float dt)
     }
     else
     {
-        if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) collider.x -= (PLAYER_MOVE_SPEED * dt);
-        if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) collider.x += (PLAYER_MOVE_SPEED * dt);
+        if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && collider.x > W_MARGIN) collider.x -= (PLAYER_MOVE_SPEED * dt);
+        //if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && collider.x < app->scene->sceneEditor->) collider.x += (PLAYER_MOVE_SPEED * dt);
         if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) collider.y -= (PLAYER_MOVE_SPEED * dt);
         if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) collider.y += (PLAYER_MOVE_SPEED * dt);
     }

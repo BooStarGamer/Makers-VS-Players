@@ -42,7 +42,8 @@ void SceneEditor::Draw()
 
 	DrawTiles();
 
-	if (!editMode)
+	//DEBUG CAM LOGIC
+	/*if (!editMode)
 	{
 		app->render->DrawLine(W_MARGIN, YCamHigh, W_MARGIN + WIN_WIDTH, YCamHigh, { 100, 255, 255, 255 });
 	}
@@ -53,7 +54,8 @@ void SceneEditor::Draw()
 	if (!editMode)
 	{
 		app->render->DrawLine(W_MARGIN, UP_MAXIMUM + 180, W_MARGIN + WIN_WIDTH, UP_MAXIMUM + 180, { 250, 100, 100, 255 });
-	}
+	}*/
+
 	if (editMode) DrawGrid();
 }
 
@@ -141,8 +143,6 @@ void SceneEditor::CameraMoveLogic()
 	}
 	else
 	{
-		LOG("YH: %d, YL: %d", YCamHigh, YCamLow);
-		LOG("POS: %d", app->scene->player->position.y);
 		if (app->scene->player->position.y + app->scene->player->collider.h < (540 - H_MARGIN) && app->scene->player->position.y > (UP_MAXIMUM + 180))
 		{
 			iPoint pos = app->scene->player->position;
@@ -195,10 +195,12 @@ void SceneEditor::PlaceTileLogic()
 		if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
 		{
 			iPoint coords = GetMouseCoordInTile();
-
 			iPoint pos = GetPosFromCoords(coords);
 
-			PlaceTile(selectedTile, pos, coords);
+			if (pos.x >= 128 && pos.y <= 606)
+			{
+				PlaceTile(selectedTile, pos, coords);
+			}
 		}
 	}
 }
@@ -498,8 +500,11 @@ iPoint SceneEditor::GetMouseCoordInTile()
 	pos.x -= app->render->camera.x;
 	pos.y -= app->render->camera.y;
 
-	pos.x = floor(pos.x / TILE_SIZE);
-	pos.y = floor(pos.y / TILE_SIZE);
+	if (pos.x < 0) pos.x = floor(pos.x / TILE_SIZE) - 1;
+	else pos.x = floor(pos.x / TILE_SIZE);
+
+	if (pos.y < 0) pos.y = floor(pos.y / TILE_SIZE) - 1;
+	else pos.y = floor(pos.y / TILE_SIZE);
 
 	return pos;
 }
