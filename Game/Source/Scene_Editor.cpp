@@ -1,5 +1,7 @@
 #include "App.h"
+#include "Scene.h"
 #include "Scene_Editor.h"
+#include "Player.h"
 #include "Render.h"
 #include "Input.h"
 #include "Textures.h"
@@ -103,24 +105,38 @@ void SceneEditor::DrawGrid()
 
 void SceneEditor::CameraMoveLogic()
 {
-	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	if (editMode)
 	{
-		if (app->render->camera.x < 0) app->render->camera.x += 3;
-	}
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		{
+			if (app->render->camera.x < 0) app->render->camera.x += 3;
+		}
 
-	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-	{
-		if (app->render->camera.x > maxAmp[lvlAmp]) app->render->camera.x -= 3;
-	}
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		{
+			if (app->render->camera.x > maxAmp[lvlAmp]) app->render->camera.x -= 3;
+		}
 
-	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-	{
-		if (app->render->camera.y < WIN_HEIGHT - H_MARGIN - 10) app->render->camera.y += 3;
-	}
+		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+		{
+			if (app->render->camera.y < WIN_HEIGHT - H_MARGIN - 10) app->render->camera.y += 3;
+		}
 
-	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+		{
+			if (app->render->camera.y > 0) app->render->camera.y -= 3;
+		}
+	}
+	else
 	{
-		if (app->render->camera.y > 0) app->render->camera.y -= 3;
+		if (app->scene->player->position.y < (0 + 180) && app->scene->player->position.y >(UP_MAXIMUM + H_MARGIN + 180))
+		{
+			app->render->camera.y = -(app->scene->player->position.y - 180 - H_MARGIN);
+		}
+
+		if (lvlAmp >= 0)
+		{
+		}
 	}
 }
 
@@ -159,33 +175,80 @@ void SceneEditor::PlaceTileLogic()
 	}
 }
 
+void SceneEditor::EraseTileLogic()
+{
+	if (editMode)
+	{
+		if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
+		{
+			iPoint coords = GetMouseCoordInTile();
+
+			EraseTile(selectedTile, coords);
+		}
+	}
+}
+
 void SceneEditor::TileSelectedLogic()
 {
 	if (editMode)
 	{
 		if (app->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN) selectedTile = NO_TILE;
+		if (app->input->GetKey(SDL_SCANCODE_BACKSPACE) == KEY_DOWN) selectedTile = ERASE;
 		else if (app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) selectedTile = GROUND;
 	}
 }
 
 void SceneEditor::EditModeLogic()
 {
-	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN) editMode = !editMode;
+	editMode = !editMode;
+
+	if (!editMode)
+	{
+		app->render->camera.y += H_MARGIN;
+		app->render->camera.x -= W_MARGIN;
+	}
+	else if (editMode)
+	{
+		app->render->camera.y -= H_MARGIN;
+		app->render->camera.x += W_MARGIN;
+	}
 }
 
 void SceneEditor::PlaceTile(TileType type, iPoint pos, iPoint coords)
 {
 	bool existent = false;
-	ListItem<GroundTile*>* list;
 
 	if (type == GROUND)
 	{
+		ListItem<GroundTile*>* list;
 		for (list = groundTiles.start; list != nullptr; list = list->next)
 		{
-			if (list->data->GetCoords() == coords) existent = true;
+			if (list->data->GetCoords() == coords)
+			{
+				existent = true;
+				break;
+			}
 		}
 
 		if (!existent) groundTiles.Add(new GroundTile(pos, coords));
+	}
+}
+
+void SceneEditor::EraseTile(TileType type, iPoint coords)
+{
+	if (type == ERASE)
+	{
+		ListItem<GroundTile*>* list;
+		for (list = groundTiles.start; list != nullptr; list = list->next)
+		{
+			if (list->data->GetCoords() == coords)
+			{
+				delete list->data;
+				groundTiles.Del(list);
+				list->data = nullptr;
+				break;
+			}
+		}
 	}
 }
 

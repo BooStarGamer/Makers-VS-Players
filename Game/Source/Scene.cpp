@@ -186,7 +186,10 @@ void Scene::UpdateEditor()
 	sceneEditor->LevelAmpLogic();
 	sceneEditor->TileSelectedLogic();
 	sceneEditor->PlaceTileLogic();
-	sceneEditor->EditModeLogic();
+
+	sceneEditor->EraseTileLogic();
+
+	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN) sceneEditor->EditModeLogic();
 
 	player->Update(1.0f);
 	player->Draw();

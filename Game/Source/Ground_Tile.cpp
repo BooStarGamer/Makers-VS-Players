@@ -20,6 +20,7 @@ GroundTile::GroundTile(iPoint pos, iPoint coords)
 
 GroundTile::~GroundTile()
 {
+	app->tex->UnLoad(groundTex);
 }
 
 void GroundTile::Draw()

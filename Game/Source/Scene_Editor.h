@@ -12,6 +12,7 @@
 #define WIN_WIDTH 1024
 #define H_MARGIN (720 - WIN_HEIGHT) / 2
 #define W_MARGIN (1280 - WIN_WIDTH) / 2
+#define UP_MAXIMUM (H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2)
 
 struct SDL_Texture;
 struct SDL_Rect;
@@ -20,6 +21,7 @@ class GroundTile;
 enum TileType
 {
 	NO_TILE = -1,
+	ERASE,
 	GROUND
 };
 
@@ -57,6 +59,7 @@ public:
 	void CameraMoveLogic();
 	void LevelAmpLogic();
 	void PlaceTileLogic();
+	void EraseTileLogic();
 	void TileSelectedLogic();
 	void EditModeLogic();
 
@@ -64,6 +67,7 @@ private:
 	void DrawGrid();
 	void DrawTiles();
 	void PlaceTile(TileType type, iPoint pos, iPoint coords);
+	void EraseTile(TileType type, iPoint coords);
 	DebugTile* GetTileFromXY(int x, int y, LevelAmplitude lvlAmp);
 	iPoint GetMousePosInTile();
 	iPoint GetMouseCoordInTile();

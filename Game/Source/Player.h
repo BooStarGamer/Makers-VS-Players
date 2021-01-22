@@ -44,13 +44,14 @@ private:
     void Jump();
     void ResetJump();
 
-private:
+private: //Bools
     bool jump;
     bool ground;
 
+private: //Variables
+    int crouchY;
+
 public:
-
-
 
     SDL_Texture* texture;   // Player spritesheet
 

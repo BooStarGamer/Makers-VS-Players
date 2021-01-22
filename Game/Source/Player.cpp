@@ -13,12 +13,12 @@
 Player::Player() : Entity(EntityType::PLAYER)
 {
     texture = NULL;
-    position = iPoint(12 * 16, 27 * 16);
+    position = { 41 * 6, 41 * 10 };
     jumpSpeed = 2.0f;
     jumpForce = JUMP_FORCE;
 
-    width = 16;
-    height = 32;
+    width = 38;
+    height = 79;
 
     collider = { position.x, position.y, width, height };
 
@@ -66,6 +66,21 @@ bool Player::Update(float dt)
             {
                 collider.x = position.x;
             }
+        }
+
+        if (app->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+        {
+            collider.h = 32;
+            collider.y = collider.y + 44;
+            UpdatePlayerPos();
+
+        }
+        else if (app->input->GetKey(SDL_SCANCODE_S) == KEY_UP)
+        {
+            collider.h = 79;
+            collider.y = collider.y - 44;
+            UpdatePlayerPos();
+
         }
 
         if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && ground)

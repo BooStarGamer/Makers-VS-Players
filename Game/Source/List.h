@@ -18,7 +18,8 @@ struct ListItem
 	}
 
 	~ListItem()
-	{}
+	{
+	}
 };
 
 // Manages a double linked list
