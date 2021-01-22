@@ -16,6 +16,7 @@ Player::Player() : Entity(EntityType::PLAYER)
     position = { 41 * 6, 41 * 10 };
     jumpSpeed = 2.0f;
     jumpForce = JUMP_FORCE;
+    speedMultiplier = 1.0f;
 
     width = 38;
     height = 79;
@@ -37,7 +38,27 @@ bool Player::Update(float dt)
     {
         if (app->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
         {
-            speed = speed * 2;
+            speed = speed * speedMultiplier;
+            if (speedMultiplier < 2.0f)
+            {
+                speedMultiplier += 0.02f;
+            }
+            else
+            {
+                speedMultiplier = 2.0f;
+            }
+        }
+        else if (app->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_IDLE)
+        {
+            speed = speed * speedMultiplier;
+            if (speedMultiplier > 1.0f)
+            {
+                speedMultiplier -= 0.04f;
+            }
+            else
+            {
+                speedMultiplier = 1.0f;
+            }
         }
 
         if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)

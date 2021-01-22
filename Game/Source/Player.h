@@ -50,6 +50,7 @@ private: //Bools
 
 private: //Variables
     int crouchY;
+    float speedMultiplier = 1.0f;
 
 public:
 
