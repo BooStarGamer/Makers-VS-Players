@@ -17,6 +17,7 @@ Player::Player() : Entity(EntityType::PLAYER)
     jumpSpeed = 2.0f;
     jumpForce = JUMP_FORCE;
     speedMultiplier = 1.0f;
+    dragged = false;
 
     width = 38;
     height = 79;

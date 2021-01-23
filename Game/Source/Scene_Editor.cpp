@@ -127,19 +127,30 @@ void SceneEditor::DragPlayerLogic()
 {
 	if (editMode)
 	{
+		iPoint pos = {};
 		if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN && IsMouseInPlayer())
 		{
-			deltaPos = GetMousePosInPlayer();
-		}
-		else if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && IsMouseInPlayer())
-		{
 			selectedTile = NO_TILE;
-			iPoint pos = GetMousePosInTile();
+			app->scene->player->dragged = true;
+			pos = GetMousePosInTile();
+			deltaPos = GetMousePosInPlayer();
 			pos.y += UP_MAXIMUM;
-			if (pos.x - deltaPos.x > 0 && pos.y + (app->scene->player->collider.h - deltaPos.y) < WIN_HEIGHT + H_MARGIN)
+			pos.x += W_MARGIN;
+			pos -= deltaPos;
+		}
+		else if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && app->scene->player->dragged)
+		{
+			pos = GetMousePosInTile();
+			pos.y += UP_MAXIMUM;
+			pos.x += W_MARGIN;
+			pos -= deltaPos;
+		}
+		else if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && app->scene->player->dragged) app->scene->player->dragged = false;
+
+		if (app->scene->player->dragged)
+		{
+			if ((pos.x - W_MARGIN) - deltaPos.x > 0 && pos.y + (app->scene->player->collider.h - deltaPos.y) < WIN_HEIGHT + H_MARGIN)
 			{
-				pos.x += W_MARGIN;
-				pos -= deltaPos;
 				DragPlayer(pos);
 			}
 		}

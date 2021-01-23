@@ -44,10 +44,14 @@ private:
     void Jump();
     void ResetJump();
 
-private: //Bools
+//Bools------------
+private:
     bool jump;
     bool ground;
     bool crouched;
+public:
+    bool dragged = false;
+//Bools------------
 
 private: //Variables
     int crouchY;
