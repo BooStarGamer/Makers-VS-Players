@@ -42,7 +42,7 @@ void SceneEditor::Draw()
 
 	DrawTiles();
 
-	//DEBUG CAM LOGIC Y
+	//DEBUG CAM LOGIC Y (Glitch: Put player on max top)
 	/*if (!editMode)
 	{
 		app->render->DrawLine(W_MARGIN, YCamHigh, W_MARGIN + WIN_WIDTH, YCamHigh, { 100, 255, 255, 255 });
@@ -52,15 +52,15 @@ void SceneEditor::Draw()
 		app->render->DrawLine(W_MARGIN, YCamLow, W_MARGIN + WIN_WIDTH, YCamLow, { 100, 255, 255, 255 });
 	}*/
 
-	//DEBUG CAM LOGIC X
-	if (!editMode)
+	//DEBUG CAM LOGIC X (Glitch: Put player out of XCamBack/XCamFor)
+	/*if (!editMode)
 	{
 		app->render->DrawLine(XCamFor, UP_MAXIMUM, XCamFor, WIN_HEIGHT + H_MARGIN, { 100, 255, 255, 255 });
 	}
 	if (!editMode)
 	{
 		app->render->DrawLine(XCamBack, UP_MAXIMUM, XCamBack, WIN_HEIGHT + H_MARGIN, { 100, 255, 255, 255 });
-	}
+	}*/
 
 	if (editMode) DrawGrid();
 }
