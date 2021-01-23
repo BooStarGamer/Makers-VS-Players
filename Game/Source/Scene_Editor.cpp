@@ -211,10 +211,7 @@ void SceneEditor::LevelAmpLogic()
 			else if (lvlAmp == AMP0 && app->render->camera.x < maxAmp[AMP0]) app->render->camera.x = maxAmp[AMP0];
 
 			//ERASE BLOCKS IN OTHER AMPLITUDES
-			if (lvlAmp == AMP0)
-			{
-				//EraseTile();
-			}
+			EraseAllTileset(GROUND, lvlAmp);
 		}
 	}
 }
@@ -335,6 +332,31 @@ void SceneEditor::EraseTile(TileType type, iPoint coords)
 				groundTiles.Del(list);
 				list->data = nullptr;
 				break;
+			}
+		}
+	}
+}
+
+void SceneEditor::EraseAllTileset(TileType type, LevelAmplitude lvlAmp)
+{
+	int sum = {};
+	if (lvlAmp == AMP0) sum = 25;
+	else if (lvlAmp == AMP1) sum = 50;
+	else if (lvlAmp == AMP2) sum = 75;
+
+	if (type == GROUND)
+	{
+		for (int x = sum; x < 25 + sum; x++)
+		{
+			for (int y = 0; y < 26; y++)
+			{
+				ListItem<GroundTile*>* toErase = GetGroundTileFromXY(iPoint(x, y));
+				if (toErase != nullptr)
+				{
+					delete toErase->data;
+					groundTiles.Del(toErase);
+					toErase->data = nullptr;
+				}
 			}
 		}
 	}
@@ -519,6 +541,20 @@ DebugTile* SceneEditor::GetTileFromXY(int x, int y, LevelAmplitude lvlAmp)
 			{
 				return list3->data;
 			}
+		}
+	}
+
+	return nullptr;
+}
+
+ListItem<GroundTile*>* SceneEditor::GetGroundTileFromXY(iPoint coords)
+{
+	ListItem<GroundTile*>* list;
+	for (list = groundTiles.start; list != nullptr; list = list->next)
+	{
+		if (list->data->GetCoords() == coords)
+		{
+			return list;
 		}
 	}
 

@@ -71,8 +71,12 @@ private:
 	void DragPlayer(iPoint pos);
 	void PlaceTile(TileType type, iPoint pos, iPoint coords);
 	void EraseTile(TileType type, iPoint coords);
+	void EraseAllTileset(TileType type, LevelAmplitude lvlAmp);
 	bool IsMouseInPlayer();
-	DebugTile* GetTileFromXY(int x, int y, LevelAmplitude lvlAmp);
+	DebugTile* GetTileFromXY(int posx, int posy, LevelAmplitude lvlAmp);
+
+	ListItem<GroundTile*>* GetGroundTileFromXY(iPoint coords);
+
 	iPoint GetMousePosInTile();
 	iPoint GetMouseCoordInTile();
 	iPoint GetPosFromCoords(iPoint coords);
