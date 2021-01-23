@@ -61,7 +61,33 @@ bool Player::Update(float dt)
             }
         }
 
-        if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+        if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !crouched && !jump)
+        {
+            if (ground) collider.x -= (speed * dt);
+            else if (!ground) collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);
+            if (!CollisionLogic())
+            {
+                position.x = collider.x;
+            }
+            else
+            {
+                collider.x = position.x;
+            }
+        }
+        else if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && crouched && jump)
+        {
+            if (ground) collider.x -= (speed * dt);
+            else if (!ground) collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);
+            if (!CollisionLogic())
+            {
+                position.x = collider.x;
+            }
+            else
+            {
+                collider.x = position.x;
+            }
+        }
+        else if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !crouched && jump)
         {
             if (ground) collider.x -= (speed * dt);
             else if (!ground) collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);
@@ -75,7 +101,33 @@ bool Player::Update(float dt)
             }
         }
 
-        if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+        if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !crouched && !jump)
+        {
+            if (ground) collider.x += (speed * dt);
+            else if (!ground) collider.x += ((speed + PLAYER_MOVE_SPEED) * dt);
+            if (!CollisionLogic())
+            {
+                position.x = collider.x;
+            }
+            else
+            {
+                collider.x = position.x;
+            }
+        }
+        else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && crouched && jump)
+        {
+            if (ground) collider.x += (speed * dt);
+            else if (!ground) collider.x += ((speed + PLAYER_MOVE_SPEED) * dt);
+            if (!CollisionLogic())
+            {
+                position.x = collider.x;
+            }
+            else
+            {
+                collider.x = position.x;
+            }
+        }
+        else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !crouched && jump)
         {
             if (ground) collider.x += (speed * dt);
             else if (!ground) collider.x += ((speed + PLAYER_MOVE_SPEED) * dt);
@@ -94,6 +146,7 @@ bool Player::Update(float dt)
             collider.h = 32;
             collider.y = collider.y + 44;
             UpdatePlayerPos();
+            crouched = true;
 
         }
         else if (app->input->GetKey(SDL_SCANCODE_S) == KEY_UP)
@@ -101,11 +154,12 @@ bool Player::Update(float dt)
             collider.h = 79;
             collider.y = collider.y - 44;
             UpdatePlayerPos();
-
+            crouched = false;
         }
 
         if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && ground)
         {
+            ground = false;
             jump = true;
         }
 
@@ -115,10 +169,13 @@ bool Player::Update(float dt)
     }
     else
     {
-        if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && collider.x > W_MARGIN) collider.x -= (PLAYER_MOVE_SPEED * dt);
-        //if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && collider.x < app->scene->sceneEditor->) collider.x += (PLAYER_MOVE_SPEED * dt);
-        if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) collider.y -= (PLAYER_MOVE_SPEED * dt);
-        if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) collider.y += (PLAYER_MOVE_SPEED * dt);
+        if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && -app->render->camera.x + W_MARGIN > W_MARGIN) collider.x -= (PLAYER_MOVE_SPEED * dt);
+
+        if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && -1 * (app->render->camera.x - WIN_WIDTH) < -1 * (app->scene->sceneEditor->GetAmpLength(app->scene->sceneEditor->GetLevelAmplitude()))) collider.x += (PLAYER_MOVE_SPEED * dt);
+
+        if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && -app->render->camera.y + H_MARGIN > UP_MAXIMUM) collider.y -= (PLAYER_MOVE_SPEED * dt);
+
+        if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && -1 * (app->render->camera.y - WIN_HEIGHT - H_MARGIN) < WIN_HEIGHT + H_MARGIN) collider.y += (PLAYER_MOVE_SPEED * dt);
     }
 
     return true;
@@ -149,14 +206,12 @@ void Player::Gravity(float dt)
     if (!CollisionLogic())
     {
         position.y = collider.y;
-        ground = false;
     }
     else
     {
         collider.y = position.y;
         jumpSpeed = 2.0f;
-        jumpForce = JUMP_FORCE;
-        ground = true;
+        //jumpForce = JUMP_FORCE;
     }
 }
 
@@ -167,6 +222,7 @@ bool Player::CollisionLogic()
     {
         if (CheckCollision(list->data->GetRect()))
         {
+            ground = true;
             return true;
         }
     }
@@ -176,13 +232,6 @@ bool Player::CollisionLogic()
 
 bool Player::CheckCollision(SDL_Rect collision)
 {
-    //Up collision platforms
-    /*if ((GetBounds().y + GetBounds().h) > collision.y && (GetBounds().x + GetBounds().w) > collision.x && 
-        GetBounds().y < (collision.y + collision.h) && GetBounds().x < (collision.x + collision.w))
-    {
-        return true;
-    }*/
-
     if ((collider.y + collider.h) > collision.y &&
         (collider.x + collider.w) > collision.x &&
         collider.y < (collision.y + collision.h) &&
@@ -213,6 +262,9 @@ void Player::Jump()
 
 void Player::ResetJump()
 {
-    jump = false;
-    jumpForce = JUMP_FORCE;
+    if (ground)
+    {
+        jump = false;
+        jumpForce = JUMP_FORCE;
+    }
 }

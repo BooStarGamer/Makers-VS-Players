@@ -38,15 +38,16 @@ public:
         return collider;
     }
 
+    void UpdatePlayerPos();
 private:
     bool CheckCollision(SDL_Rect collision);
-    void UpdatePlayerPos();
     void Jump();
     void ResetJump();
 
 private: //Bools
     bool jump;
     bool ground;
+    bool crouched;
 
 private: //Variables
     int crouchY;

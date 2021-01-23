@@ -185,8 +185,10 @@ void Scene::UpdateEditor()
 	sceneEditor->CameraMoveLogic();
 	sceneEditor->LevelAmpLogic();
 	sceneEditor->TileSelectedLogic();
-	sceneEditor->PlaceTileLogic();
 
+	sceneEditor->DragPlayerLogic();
+
+	sceneEditor->PlaceTileLogic();
 	sceneEditor->EraseTileLogic();
 
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN) sceneEditor->EditModeLogic();

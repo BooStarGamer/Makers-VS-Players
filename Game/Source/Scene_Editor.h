@@ -62,21 +62,36 @@ public:
 	void EraseTileLogic();
 	void TileSelectedLogic();
 	void EditModeLogic();
+	void DragPlayerLogic();
 
 private:
 	void DrawGrid();
 	void DrawTiles();
+	void DragPlayer(iPoint pos);
 	void PlaceTile(TileType type, iPoint pos, iPoint coords);
 	void EraseTile(TileType type, iPoint coords);
+	bool IsMouseInPlayer();
 	DebugTile* GetTileFromXY(int x, int y, LevelAmplitude lvlAmp);
 	iPoint GetMousePosInTile();
 	iPoint GetMouseCoordInTile();
 	iPoint GetPosFromCoords(iPoint coords);
+	iPoint GetMousePosInPlayer();
 
 public: //Getters
 	bool GetEditMode() const
 	{
 		return editMode;
+	}
+	int GetAmpLength(LevelAmplitude lvlAmp) const
+	{
+		if (lvlAmp == AMP0) return maxAmp[1];
+		if (lvlAmp == AMP1) return maxAmp[2];
+		if (lvlAmp == AMP2) return maxAmp[3];
+		if (lvlAmp == AMP3) return maxAmp[3] - WIN_WIDTH;
+	}
+	LevelAmplitude GetLevelAmplitude() const
+	{
+		return lvlAmp;
 	}
 
 private: //Debug Functions
@@ -95,6 +110,7 @@ private:
 	TileType selectedTile = NO_TILE;
 	int YCamHigh = 180;
 	int YCamLow = 540;
+	iPoint deltaPos;
 //Variables----------
 
 private: //Amplitude

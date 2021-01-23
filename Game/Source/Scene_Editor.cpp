@@ -117,6 +117,29 @@ void SceneEditor::DrawGrid()
 	DebugMargin(debugMargin);
 }
 
+void SceneEditor::DragPlayerLogic()
+{
+	if (editMode)
+	{
+		if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN && IsMouseInPlayer())
+		{
+			deltaPos = GetMousePosInPlayer();
+		}
+		else if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && IsMouseInPlayer())
+		{
+			selectedTile = NO_TILE;
+			iPoint pos = GetMousePosInTile();
+			pos.y += UP_MAXIMUM;
+			if (pos.x - deltaPos.x > 0 && pos.y + (app->scene->player->collider.h - deltaPos.y) < WIN_HEIGHT + H_MARGIN)
+			{
+				pos.x += W_MARGIN;
+				pos -= deltaPos;
+				DragPlayer(pos);
+			}
+		}
+	}
+}
+
 void SceneEditor::CameraMoveLogic()
 {
 	if (editMode)
@@ -264,6 +287,27 @@ void SceneEditor::PlaceTile(TileType type, iPoint pos, iPoint coords)
 
 		if (!existent) groundTiles.Add(new GroundTile(pos, coords));
 	}
+}
+
+void SceneEditor::DragPlayer(iPoint pos)
+{
+	app->scene->player->collider.x = pos.x;
+	app->scene->player->collider.y = pos.y;
+	app->scene->player->UpdatePlayerPos();
+}
+
+bool SceneEditor::IsMouseInPlayer()
+{
+	iPoint pos = GetMousePosInTile();
+	pos.y += UP_MAXIMUM;
+	pos.x += W_MARGIN;
+
+	if (pos.x > app->scene->player->collider.x &&
+		pos.x < app->scene->player->collider.x + app->scene->player->collider.w &&
+		pos.y > app->scene->player->collider.y &&
+		pos.y < app->scene->player->collider.y + app->scene->player->collider.h) return true;
+
+	return false;
 }
 
 void SceneEditor::EraseTile(TileType type, iPoint coords)
@@ -507,6 +551,20 @@ iPoint SceneEditor::GetMouseCoordInTile()
 	else pos.y = floor(pos.y / TILE_SIZE);
 
 	return pos;
+}
+
+iPoint SceneEditor::GetMousePosInPlayer()
+{
+	if (IsMouseInPlayer())
+	{
+		iPoint pos = GetMousePosInTile();
+		pos.y += UP_MAXIMUM;
+		pos.x += W_MARGIN;
+
+		return iPoint(pos.x - app->scene->player->collider.x, pos.y - app->scene->player->collider.y);
+	}
+
+	return iPoint();
 }
 
 DebugTile::DebugTile(SDL_Rect r, iPoint pos)
