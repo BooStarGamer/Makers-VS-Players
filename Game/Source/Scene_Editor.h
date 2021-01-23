@@ -63,6 +63,7 @@ public:
 	void TileSelectedLogic();
 	void EditModeLogic();
 	void DragPlayerLogic();
+	void ReplacePlayerLogic();
 
 private:
 	void DrawGrid();

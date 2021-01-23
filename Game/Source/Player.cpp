@@ -61,98 +61,100 @@ bool Player::Update(float dt)
             }
         }
 
-        if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !crouched && !jump)
+        if (collider.x > W_MARGIN)
         {
-            if (ground) collider.x -= (speed * dt);
-            else if (!ground) collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);
-            if (!CollisionLogic())
+            if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !crouched && !jump)
             {
-                position.x = collider.x;
+                if (ground) collider.x -= (speed * dt);
+                else if (!ground) collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);
+                if (!CollisionLogic())
+                {
+                    position.x = collider.x;
+                }
+                else
+                {
+                    collider.x = position.x;
+                }
             }
-            else
+            else if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && crouched && jump)
             {
-                collider.x = position.x;
+                if (ground) collider.x -= (speed * dt);
+                else if (!ground) collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);
+                if (!CollisionLogic())
+                {
+                    position.x = collider.x;
+                }
+                else
+                {
+                    collider.x = position.x;
+                }
             }
-        }
-        else if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && crouched && jump)
-        {
-            if (ground) collider.x -= (speed * dt);
-            else if (!ground) collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);
-            if (!CollisionLogic())
+            else if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !crouched && jump)
             {
-                position.x = collider.x;
-            }
-            else
-            {
-                collider.x = position.x;
-            }
-        }
-        else if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !crouched && jump)
-        {
-            if (ground) collider.x -= (speed * dt);
-            else if (!ground) collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);
-            if (!CollisionLogic())
-            {
-                position.x = collider.x;
-            }
-            else
-            {
-                collider.x = position.x;
+                if (ground) collider.x -= (speed * dt);
+                else if (!ground) collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);
+                if (!CollisionLogic())
+                {
+                    position.x = collider.x;
+                }
+                else
+                {
+                    collider.x = position.x;
+                }
             }
         }
 
         if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !crouched && !jump)
-        {
-            if (ground) collider.x += (speed * dt);
-            else if (!ground) collider.x += ((speed + PLAYER_MOVE_SPEED) * dt);
-            if (!CollisionLogic())
             {
-                position.x = collider.x;
+                if (ground) collider.x += (speed * dt);
+                else if (!ground) collider.x += ((speed + PLAYER_MOVE_SPEED) * dt);
+                if (!CollisionLogic())
+                {
+                    position.x = collider.x;
+                }
+                else
+                {
+                    collider.x = position.x;
+                }
             }
-            else
-            {
-                collider.x = position.x;
-            }
-        }
         else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && crouched && jump)
-        {
-            if (ground) collider.x += (speed * dt);
-            else if (!ground) collider.x += ((speed + PLAYER_MOVE_SPEED) * dt);
-            if (!CollisionLogic())
             {
-                position.x = collider.x;
+                if (ground) collider.x += (speed * dt);
+                else if (!ground) collider.x += ((speed + PLAYER_MOVE_SPEED) * dt);
+                if (!CollisionLogic())
+                {
+                    position.x = collider.x;
+                }
+                else
+                {
+                    collider.x = position.x;
+                }
             }
-            else
-            {
-                collider.x = position.x;
-            }
-        }
         else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !crouched && jump)
-        {
-            if (ground) collider.x += (speed * dt);
-            else if (!ground) collider.x += ((speed + PLAYER_MOVE_SPEED) * dt);
-            if (!CollisionLogic())
             {
-                position.x = collider.x;
+                if (ground) collider.x += (speed * dt);
+                else if (!ground) collider.x += ((speed + PLAYER_MOVE_SPEED) * dt);
+                if (!CollisionLogic())
+                {
+                    position.x = collider.x;
+                }
+                else
+                {
+                    collider.x = position.x;
+                }
             }
-            else
-            {
-                collider.x = position.x;
-            }
-        }
 
         if (app->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
         {
             collider.h = 32;
-            collider.y = collider.y + 44;
+            collider.y = collider.y + 47;
             UpdatePlayerPos();
             crouched = true;
-
         }
         else if (app->input->GetKey(SDL_SCANCODE_S) == KEY_UP)
         {
             collider.h = 79;
-            collider.y = collider.y - 44;
+            collider.y = collider.y - 47;
             UpdatePlayerPos();
             crouched = false;
         }

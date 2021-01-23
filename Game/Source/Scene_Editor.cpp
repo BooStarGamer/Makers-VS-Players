@@ -269,6 +269,18 @@ void SceneEditor::EditModeLogic()
 	}
 }
 
+void SceneEditor::ReplacePlayerLogic()
+{
+	if (!editMode)
+	{
+		if (app->scene->player->collider.y > 720)
+		{
+			EditModeLogic();
+			app->scene->player->collider.y -= 400;
+		}
+	}
+}
+
 void SceneEditor::PlaceTile(TileType type, iPoint pos, iPoint coords)
 {
 	bool existent = false;
@@ -294,20 +306,6 @@ void SceneEditor::DragPlayer(iPoint pos)
 	app->scene->player->collider.x = pos.x;
 	app->scene->player->collider.y = pos.y;
 	app->scene->player->UpdatePlayerPos();
-}
-
-bool SceneEditor::IsMouseInPlayer()
-{
-	iPoint pos = GetMousePosInTile();
-	pos.y += UP_MAXIMUM;
-	pos.x += W_MARGIN;
-
-	if (pos.x > app->scene->player->collider.x &&
-		pos.x < app->scene->player->collider.x + app->scene->player->collider.w &&
-		pos.y > app->scene->player->collider.y &&
-		pos.y < app->scene->player->collider.y + app->scene->player->collider.h) return true;
-
-	return false;
 }
 
 void SceneEditor::EraseTile(TileType type, iPoint coords)
@@ -571,4 +569,18 @@ DebugTile::DebugTile(SDL_Rect r, iPoint pos)
 {
 	tileRect = r;
 	position = pos;
+}
+
+bool SceneEditor::IsMouseInPlayer()
+{
+	iPoint pos = GetMousePosInTile();
+	pos.y += UP_MAXIMUM;
+	pos.x += W_MARGIN;
+
+	if (pos.x > app->scene->player->collider.x &&
+		pos.x < app->scene->player->collider.x + app->scene->player->collider.w &&
+		pos.y > app->scene->player->collider.y &&
+		pos.y < app->scene->player->collider.y + app->scene->player->collider.h) return true;
+
+	return false;
 }

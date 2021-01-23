@@ -193,6 +193,8 @@ void Scene::UpdateEditor()
 
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN) sceneEditor->EditModeLogic();
 
+	sceneEditor->ReplacePlayerLogic();
+
 	player->Update(1.0f);
 	player->Draw();
 }
