@@ -61,9 +61,9 @@ bool Player::Update(float dt)
             }
         }
 
-        if (collider.x > W_MARGIN)
+        if (collider.x > W_MARGIN && app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
         {
-            if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !crouched && !jump)
+            if (!crouched && !jump)
             {
                 if (ground) collider.x -= (speed * dt);
                 else if (!ground) collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);
@@ -76,7 +76,7 @@ bool Player::Update(float dt)
                     collider.x = position.x;
                 }
             }
-            else if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && crouched && jump)
+            else if (crouched && jump)
             {
                 if (ground) collider.x -= (speed * dt);
                 else if (!ground) collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);
@@ -89,7 +89,7 @@ bool Player::Update(float dt)
                     collider.x = position.x;
                 }
             }
-            else if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !crouched && jump)
+            else if (!crouched && jump)
             {
                 if (ground) collider.x -= (speed * dt);
                 else if (!ground) collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);

@@ -202,11 +202,19 @@ void SceneEditor::LevelAmpLogic()
 
 		if (app->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN)
 		{
+			//CHANGE lvlAmp VARIABLE
 			if (lvlAmp != AMP0) lvlAmp = (LevelAmplitude)((int)lvlAmp - 1);
-
+			
+			//MOVE CAMERA
 			if (lvlAmp == AMP2 && app->render->camera.x < maxAmp[AMP2]) app->render->camera.x = maxAmp[AMP2];
 			else if (lvlAmp == AMP1 && app->render->camera.x < maxAmp[AMP1]) app->render->camera.x = maxAmp[AMP1];
 			else if (lvlAmp == AMP0 && app->render->camera.x < maxAmp[AMP0]) app->render->camera.x = maxAmp[AMP0];
+
+			//ERASE BLOCKS IN OTHER AMPLITUDES
+			if (lvlAmp == AMP0)
+			{
+				//EraseTile();
+			}
 		}
 	}
 }
@@ -220,7 +228,8 @@ void SceneEditor::PlaceTileLogic()
 			iPoint coords = GetMouseCoordInTile();
 			iPoint pos = GetPosFromCoords(coords);
 
-			if (pos.x >= 128 && pos.y <= 606)
+			if (pos.x >= 128 && pos.y <= 606 && pos.y >= H_MARGIN - 40 - app->render->camera.y &&
+				pos.x <= WIN_WIDTH + W_MARGIN - app->render->camera.x) //40 for almost 1 tile
 			{
 				PlaceTile(selectedTile, pos, coords);
 			}
@@ -235,8 +244,13 @@ void SceneEditor::EraseTileLogic()
 		if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
 		{
 			iPoint coords = GetMouseCoordInTile();
+			iPoint pos = GetPosFromCoords(coords);
 
-			EraseTile(selectedTile, coords);
+			if (pos.x >= 128 && pos.y <= 606 && pos.y >= H_MARGIN - 40 - app->render->camera.y &&
+				pos.x <= WIN_WIDTH + W_MARGIN - app->render->camera.x) //40 for almost 1 tile
+			{
+				EraseTile(selectedTile, coords);
+			}
 		}
 	}
 }
