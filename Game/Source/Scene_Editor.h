@@ -115,6 +115,9 @@ private:
 	TileType selectedTile = NO_TILE;
 	int YCamHigh = 180;
 	int YCamLow = 540;
+	int XCamFor = 960 - 320 / 2 + W_MARGIN;
+	int XCamBack = 320 + 320 / 2 + W_MARGIN;
+	int CamForBackDif = (960 - 320 / 2) - (320 + 320 / 2);
 	iPoint deltaPos;
 //Variables----------
 
