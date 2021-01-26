@@ -182,6 +182,8 @@ void Scene::UpdateEditor()
 
 	sceneEditor->Draw();
 
+	player->Update(1.0f);
+
 	sceneEditor->CameraMoveLogic();
 	sceneEditor->LevelAmpLogic();
 	sceneEditor->TileSelectedLogic();
@@ -195,7 +197,6 @@ void Scene::UpdateEditor()
 
 	sceneEditor->ReplacePlayerLogic();
 
-	player->Update(1.0f);
 	player->Draw();
 }
 

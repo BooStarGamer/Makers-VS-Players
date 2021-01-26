@@ -51,10 +51,14 @@ private:
     bool crouched;
 public:
     bool dragged = false;
+    bool left = false;
+    bool right = false;
 //Bools------------
 
 private: //Variables
     int crouchY;
+
+public:
     float speedMultiplier = 1.0f;
 
 public:

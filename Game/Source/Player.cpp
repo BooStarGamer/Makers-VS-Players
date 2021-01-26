@@ -62,7 +62,12 @@ bool Player::Update(float dt)
             }
         }
 
-        if (collider.x > W_MARGIN && app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+        if (app->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
+        {
+            left = true; 
+            right = true;
+        }
+        else if (collider.x > W_MARGIN && app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
         {
             if (!crouched && !jump)
             {
@@ -104,8 +109,16 @@ bool Player::Update(float dt)
                 }
             }
         }
+        else if (app->input->GetKey(SDL_SCANCODE_A) == KEY_UP) left = false;
 
-        if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !crouched && !jump)
+        if (app->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
+        {
+            right = true;
+            left = false;
+        }
+        else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+        {
+            if (!crouched && !jump)
             {
                 if (ground) collider.x += (speed * dt);
                 else if (!ground) collider.x += ((speed + PLAYER_MOVE_SPEED) * dt);
@@ -118,7 +131,7 @@ bool Player::Update(float dt)
                     collider.x = position.x;
                 }
             }
-        else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && crouched && jump)
+            else if (crouched && jump)
             {
                 if (ground) collider.x += (speed * dt);
                 else if (!ground) collider.x += ((speed + PLAYER_MOVE_SPEED) * dt);
@@ -131,7 +144,7 @@ bool Player::Update(float dt)
                     collider.x = position.x;
                 }
             }
-        else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !crouched && jump)
+            else if (!crouched && jump)
             {
                 if (ground) collider.x += (speed * dt);
                 else if (!ground) collider.x += ((speed + PLAYER_MOVE_SPEED) * dt);
@@ -144,6 +157,8 @@ bool Player::Update(float dt)
                     collider.x = position.x;
                 }
             }
+        }
+        else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_UP) right = false;
 
         if (app->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
         {

@@ -53,14 +53,14 @@ void SceneEditor::Draw()
 	}*/
 
 	//DEBUG CAM LOGIC X (Glitch: Put player out of XCamBack/XCamFor)
-	/*if (!editMode)
-	{
-		app->render->DrawLine(XCamFor, UP_MAXIMUM, XCamFor, WIN_HEIGHT + H_MARGIN, { 100, 255, 255, 255 });
-	}
-	if (!editMode)
-	{
-		app->render->DrawLine(XCamBack, UP_MAXIMUM, XCamBack, WIN_HEIGHT + H_MARGIN, { 100, 255, 255, 255 });
-	}*/
+	//if (!editMode)
+	//{
+	//	app->render->DrawLine(XCamFor, UP_MAXIMUM, XCamFor, WIN_HEIGHT + H_MARGIN, { 100, 255, 255, 255 });
+	//}
+	//if (!editMode)
+	//{
+	//	app->render->DrawLine(XCamBack, UP_MAXIMUM, XCamBack, WIN_HEIGHT + H_MARGIN, { 100, 255, 255, 255 });
+	//}
 
 	if (editMode) DrawGrid();
 }
@@ -203,26 +203,35 @@ void SceneEditor::CameraMoveLogic()
 			}
 		}
 
-		if (app->scene->player->position.x + app->scene->player->collider.w < -maxAmp[lvlAmp] + W_MARGIN * 2 + WIN_WIDTH - (320 + 320 / 2) &&
-			app->scene->player->position.x > (320 + 320 / 2 + W_MARGIN))
-		{
-			int pos = app->scene->player->position.x;
-			int size = app->scene->player->collider.w;
 
-			if (pos < XCamBack)
+		//X CAM LOGIC
+		if (-app->render->camera.x > W_MARGIN)
+		{
+			if (app->scene->player->collider.x < XCamBack)
 			{
-				XCamBack = pos;
-				XCamFor = XCamBack + CamForBackDif;
-				app->render->camera.x = -1 * (XCamBack - (320 + 320 / 2));
-			}
-			else if ((pos + size) > XCamFor)
-			{
-				XCamFor = pos + size;
-				XCamBack = XCamFor - CamForBackDif;
-				app->render->camera.x = -1 * (XCamBack - (320 + 320 / 2));
+				if (app->scene->player->left)
+				{
+					float speed = 3 * app->scene->player->speedMultiplier;
+					app->render->camera.x += speed;
+					XCamBack -= speed;
+					XCamFor -= speed;
+				}
 			}
 		}
-
+		
+		if ((-app->render->camera.x) + app->render->camera.w < -maxAmp[lvlAmp] + WIN_WIDTH + W_MARGIN)
+		{
+			if (app->scene->player->collider.x + app->scene->player->collider.w > XCamFor)
+			{
+				if (app->scene->player->right)
+				{
+					float speed = 3 * app->scene->player->speedMultiplier;
+					app->render->camera.x -= speed;
+					XCamBack += speed;
+					XCamFor += speed;
+				}
+			}
+		}
 	}
 }
 
@@ -314,6 +323,8 @@ void SceneEditor::EditModeLogic()
 	{
 		app->render->camera.y -= H_MARGIN;
 		app->render->camera.x += W_MARGIN;
+		app->scene->player->right = false;
+		app->scene->player->left = false;
 	}
 }
 
