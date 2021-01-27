@@ -29,7 +29,7 @@ Player::Player() : Entity(EntityType::PLAYER)
 
 bool Player::Update(float dt)
 {
-    #define GRAVITY 5.0f
+    #define GRAVITY 1.0f
     #define PLAYER_MOVE_SPEED 3.0f
     float speed = PLAYER_MOVE_SPEED;
 
