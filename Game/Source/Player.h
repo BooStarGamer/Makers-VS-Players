@@ -77,6 +77,7 @@ public:
     float jumpSpeed = 0.0f;
     bool readyToJump = true;
     bool hitObstacle = false;
+    float finalSpeed = 0.0f;
 };
 
 #endif // __PLAYER_H__

@@ -211,7 +211,7 @@ void SceneEditor::CameraMoveLogic()
 			{
 				if (app->scene->player->left)
 				{
-					float speed = 3 * app->scene->player->speedMultiplier;
+					float speed = app->scene->player->finalSpeed;
 					app->render->camera.x += speed;
 					XCamBack -= speed;
 					XCamFor -= speed;
@@ -225,13 +225,16 @@ void SceneEditor::CameraMoveLogic()
 			{
 				if (app->scene->player->right)
 				{
-					float speed = 3 * app->scene->player->speedMultiplier;
+					float speed = app->scene->player->finalSpeed;
 					app->render->camera.x -= speed;
 					XCamBack += speed;
 					XCamFor += speed;
 				}
 			}
 		}
+
+		//Camera Check Position
+		if (-app->render->camera.x < W_MARGIN) app->render->camera.x = -W_MARGIN;
 	}
 }
 

@@ -31,7 +31,7 @@ bool Player::Update(float dt)
 {
     #define GRAVITY 5.0f
     #define PLAYER_MOVE_SPEED 3.0f
-    int speed = PLAYER_MOVE_SPEED;
+    float speed = PLAYER_MOVE_SPEED;
 
     UpdatePlayerPos();
 
@@ -72,7 +72,11 @@ bool Player::Update(float dt)
             if (!crouched && !jump)
             {
                 if (ground) collider.x -= (speed * dt);
-                else if (!ground) collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);
+                else if (!ground)
+                {
+                    collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);
+                    speed += PLAYER_MOVE_SPEED;
+                }
                 if (!CollisionLogic())
                 {
                     position.x = collider.x;
@@ -85,7 +89,11 @@ bool Player::Update(float dt)
             else if (crouched && jump)
             {
                 if (ground) collider.x -= (speed * dt);
-                else if (!ground) collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);
+                else if (!ground)
+                {
+                    collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);
+                    speed += PLAYER_MOVE_SPEED;
+                }
                 if (!CollisionLogic())
                 {
                     position.x = collider.x;
@@ -98,7 +106,11 @@ bool Player::Update(float dt)
             else if (!crouched && jump)
             {
                 if (ground) collider.x -= (speed * dt);
-                else if (!ground) collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);
+                else if (!ground)
+                {
+                    collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);
+                    speed += PLAYER_MOVE_SPEED;
+                }
                 if (!CollisionLogic())
                 {
                     position.x = collider.x;
@@ -121,7 +133,11 @@ bool Player::Update(float dt)
             if (!crouched && !jump)
             {
                 if (ground) collider.x += (speed * dt);
-                else if (!ground) collider.x += ((speed + PLAYER_MOVE_SPEED) * dt);
+                else if (!ground)
+                {
+                    collider.x += ((speed + PLAYER_MOVE_SPEED) * dt);
+                    speed += PLAYER_MOVE_SPEED;
+                }
                 if (!CollisionLogic())
                 {
                     position.x = collider.x;
@@ -134,7 +150,11 @@ bool Player::Update(float dt)
             else if (crouched && jump)
             {
                 if (ground) collider.x += (speed * dt);
-                else if (!ground) collider.x += ((speed + PLAYER_MOVE_SPEED) * dt);
+                else if (!ground)
+                {
+                    collider.x += ((speed + PLAYER_MOVE_SPEED) * dt);
+                    speed += PLAYER_MOVE_SPEED;
+                }
                 if (!CollisionLogic())
                 {
                     position.x = collider.x;
@@ -147,7 +167,11 @@ bool Player::Update(float dt)
             else if (!crouched && jump)
             {
                 if (ground) collider.x += (speed * dt);
-                else if (!ground) collider.x += ((speed + PLAYER_MOVE_SPEED) * dt);
+                else if (!ground)
+                {
+                    collider.x += ((speed + PLAYER_MOVE_SPEED) * dt);
+                    speed += PLAYER_MOVE_SPEED;
+                }
                 if (!CollisionLogic())
                 {
                     position.x = collider.x;
@@ -184,6 +208,8 @@ bool Player::Update(float dt)
         if (jump) Jump();
 
         Gravity(dt);
+
+        finalSpeed = abs(speed);
     }
     else
     {
