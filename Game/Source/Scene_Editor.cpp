@@ -88,7 +88,7 @@ void SceneEditor::DrawGrid()
 	{
 		for (int i = 1; i < 26; i++)
 		{
-			app->render->DrawLine(W_MARGIN + (41 * i) + WIN_WIDTH, H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, W_MARGIN + (41 * i) + WIN_WIDTH, H_MARGIN + WIN_HEIGHT, { 255, 255, 255, 255 });
+			app->render->DrawLine(W_MARGIN + (41 * i) - maxAmp[1], H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, W_MARGIN + (41 * i) - maxAmp[1], H_MARGIN + WIN_HEIGHT, { 255, 255, 255, 255 });
 		}
 		for (int i = 0; i < 27; i++)
 		{
@@ -100,7 +100,7 @@ void SceneEditor::DrawGrid()
 	{
 		for (int i = 1; i < 26; i++)
 		{
-			app->render->DrawLine(W_MARGIN + (41 * i) + WIN_WIDTH * 2, H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, W_MARGIN + (41 * i) + WIN_WIDTH * 2, H_MARGIN + WIN_HEIGHT, { 255, 255, 255, 255 });
+			app->render->DrawLine(W_MARGIN + (41 * i) - maxAmp[2], H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, W_MARGIN + (41 * i) - maxAmp[2], H_MARGIN + WIN_HEIGHT, { 255, 255, 255, 255 });
 		}
 		for (int i = 0; i < 27; i++)
 		{
@@ -112,7 +112,7 @@ void SceneEditor::DrawGrid()
 	{
 		for (int i = 1; i < 26; i++)
 		{
-			app->render->DrawLine(W_MARGIN + (41 * i) + WIN_WIDTH * 3, H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, W_MARGIN + (41 * i) + WIN_WIDTH * 3, H_MARGIN + WIN_HEIGHT, { 255, 255, 255, 255 });
+			app->render->DrawLine(W_MARGIN + (41 * i) + -maxAmp[3], H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, W_MARGIN + (41 * i) - maxAmp[3], H_MARGIN + WIN_HEIGHT, { 255, 255, 255, 255 });
 		}
 		for (int i = 0; i < 27; i++)
 		{
