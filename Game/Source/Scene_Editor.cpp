@@ -149,7 +149,7 @@ void SceneEditor::DragPlayerLogic()
 
 		if (app->scene->player->dragged)
 		{
-			if (pos.x > W_MARGIN - app->render->camera.x && pos.y + app->scene->player->collider.h < WIN_HEIGHT + H_MARGIN - app->render->camera.y && pos.x + app->scene->player->collider.w < W_MARGIN + WIN_WIDTH - app->render->camera.x && pos.y > app->render->camera.y + H_MARGIN)
+			if (pos.x > W_MARGIN - app->render->camera.x && pos.y + app->scene->player->collider.h < WIN_HEIGHT + H_MARGIN - app->render->camera.y && pos.x + app->scene->player->collider.w < W_MARGIN + WIN_WIDTH - app->render->camera.x && pos.y > -app->render->camera.y + H_MARGIN)//pos.x > W_MARGIN - app->render->camera.x
 			{
 				LOG("%d", pos.y);
 				DragPlayer(pos);
@@ -283,15 +283,20 @@ void SceneEditor::PlaceTileLogic()
 {
 	if (editMode)
 	{
-		if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
+		if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && selectedTile != NO_TILE && selectedTile != ERASE)
 		{
+			iPoint mPos = GetMousePosInTile();
 			iPoint coords = GetMouseCoordInTile();
 			iPoint pos = GetPosFromCoords(coords);
 
-			if (pos.x >= 128 && pos.y <= 606 && pos.y >= H_MARGIN - 40 - app->render->camera.y &&
+			if (pos.x + 40 > 128 - app->render->camera.x && pos.y <= 606 + 40 - app->render->camera.y && pos.y >= H_MARGIN - 40 - app->render->camera.y &&
 				pos.x <= WIN_WIDTH + W_MARGIN - app->render->camera.x) //40 for almost 1 tile
 			{
-				PlaceTile(selectedTile, pos, coords);
+				if ( mPos.x > -app->render->camera.x && mPos.x < WIN_WIDTH - app->render->camera.x && mPos.y + UP_MAXIMUM < -app->render->camera.y + H_MARGIN + WIN_HEIGHT 
+					&& mPos.y + UP_MAXIMUM > -app->render->camera.y + H_MARGIN)
+				{
+					PlaceTile(selectedTile, pos, coords);
+				}
 			}
 		}
 	}
@@ -332,6 +337,7 @@ void SceneEditor::EditModeLogic()
 	if (!editMode)
 	{
 		app->render->camera.y += H_MARGIN;
+		if (app->render->camera.y > 418) app->render->camera.y = 418;
 		app->render->camera.x -= W_MARGIN;
 		YCamHigh = -app->render->camera.y + 180;
 		YCamLow = -app->render->camera.y + 540;
