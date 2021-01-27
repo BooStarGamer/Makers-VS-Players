@@ -213,19 +213,25 @@ bool Player::Update(float dt)
     }
     else
     {
-        if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && -app->render->camera.x + W_MARGIN > W_MARGIN) collider.x -= (PLAYER_MOVE_SPEED * dt);
-
         if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
         {
             if (app->render->camera.x - WIN_WIDTH > app->scene->sceneEditor->GetAmpLength((LevelAmplitude)((int)app->scene->sceneEditor->GetLevelAmplitude() + 1)) + W_MARGIN)
             {
-                collider.x += (PLAYER_MOVE_SPEED * dt);
+                collider.x += ((PLAYER_MOVE_SPEED + 1) * dt);
+            }
+        }
+        
+        if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+        {
+            if (-app->render->camera.x + W_MARGIN > W_MARGIN )
+            {
+                collider.x -= ((PLAYER_MOVE_SPEED + 1) * dt);
             }
         }
 
-        if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && -app->render->camera.y + H_MARGIN > UP_MAXIMUM) collider.y -= (PLAYER_MOVE_SPEED * dt);
+        if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && -app->render->camera.y + H_MARGIN > UP_MAXIMUM) collider.y -= ((PLAYER_MOVE_SPEED + 1) * dt);
 
-        if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && -1 * (app->render->camera.y - WIN_HEIGHT - H_MARGIN) < WIN_HEIGHT + H_MARGIN) collider.y += (PLAYER_MOVE_SPEED * dt);
+        if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && -1 * (app->render->camera.y - WIN_HEIGHT - H_MARGIN) < WIN_HEIGHT + H_MARGIN) collider.y += ((PLAYER_MOVE_SPEED + 1) * dt);
     }
 
     return true;

@@ -164,22 +164,22 @@ void SceneEditor::CameraMoveLogic()
 	{
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
-			if (app->render->camera.x < 0) app->render->camera.x += 3;
+			if (app->render->camera.x < 0) app->render->camera.x += 4;
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
-			if (app->render->camera.x - WIN_WIDTH > maxAmp[lvlAmp + 1] + W_MARGIN) app->render->camera.x -= 3;
+			if (app->render->camera.x - WIN_WIDTH > maxAmp[lvlAmp + 1] + W_MARGIN) app->render->camera.x -= 4;
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 		{
-			if (app->render->camera.y < WIN_HEIGHT - H_MARGIN - 10) app->render->camera.y += 3;
+			if (app->render->camera.y < WIN_HEIGHT - H_MARGIN - 10) app->render->camera.y += 4;
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 		{
-			if (app->render->camera.y > 0) app->render->camera.y -= 3;
+			if (app->render->camera.y > 0) app->render->camera.y -= 4;
 		}
 	}
 	else
@@ -339,6 +339,7 @@ void SceneEditor::EditModeLogic()
 		app->render->camera.y += H_MARGIN;
 		if (app->render->camera.y > 418) app->render->camera.y = 418;
 		app->render->camera.x -= W_MARGIN;
+		if (-app->render->camera.x + W_MARGIN + WIN_WIDTH >= maxAmp[lvlAmp + 1]) app->render->camera.x += 41 * 6;
 		YCamHigh = -app->render->camera.y + 180;
 		YCamLow = -app->render->camera.y + 540;
 		XCamFor = -app->render->camera.x + 960 - 320 / 2;
