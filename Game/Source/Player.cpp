@@ -215,7 +215,13 @@ bool Player::Update(float dt)
     {
         if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && -app->render->camera.x + W_MARGIN > W_MARGIN) collider.x -= (PLAYER_MOVE_SPEED * dt);
 
-        if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && -1 * (app->render->camera.x - WIN_WIDTH) < -1 * (app->scene->sceneEditor->GetAmpLength(app->scene->sceneEditor->GetLevelAmplitude()))) collider.x += (PLAYER_MOVE_SPEED * dt);
+        if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+        {
+            if (app->render->camera.x - WIN_WIDTH > app->scene->sceneEditor->GetAmpLength((LevelAmplitude)((int)app->scene->sceneEditor->GetLevelAmplitude() + 1)) + W_MARGIN)
+            {
+                collider.x += (PLAYER_MOVE_SPEED * dt);
+            }
+        }
 
         if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && -app->render->camera.y + H_MARGIN > UP_MAXIMUM) collider.y -= (PLAYER_MOVE_SPEED * dt);
 

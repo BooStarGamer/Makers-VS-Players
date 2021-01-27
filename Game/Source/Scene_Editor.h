@@ -89,10 +89,11 @@ public: //Getters
 	}
 	int GetAmpLength(LevelAmplitude lvlAmp) const
 	{
-		if (lvlAmp == AMP0) return maxAmp[1];
-		if (lvlAmp == AMP1) return maxAmp[2];
-		if (lvlAmp == AMP2) return maxAmp[3];
-		if (lvlAmp == AMP3) return maxAmp[3] - WIN_WIDTH;
+		if (lvlAmp == AMP0) return maxAmp[0];
+		if (lvlAmp == AMP1) return maxAmp[1];
+		if (lvlAmp == AMP2) return maxAmp[2];
+		if (lvlAmp == AMP3) return maxAmp[3];
+		if (lvlAmp == 4) return maxAmp[4];
 	}
 	LevelAmplitude GetLevelAmplitude() const
 	{
@@ -123,7 +124,7 @@ private:
 
 private: //Amplitude
 	LevelAmplitude lvlAmp;
-	int maxAmp[4] = {0, -WIN_WIDTH, -WIN_WIDTH * 2, -WIN_WIDTH * 3};
+	int maxAmp[5] = {- W_MARGIN, (-WIN_WIDTH - 41 * 6) - W_MARGIN, (-WIN_WIDTH - 41 * 6) * 2 - W_MARGIN, (-WIN_WIDTH - 41 * 6) * 3 - W_MARGIN, (-WIN_WIDTH - 41 * 6) * 4 - W_MARGIN };
 
 //Lists--------------
 public:

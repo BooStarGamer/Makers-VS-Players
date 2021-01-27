@@ -75,48 +75,48 @@ void SceneEditor::CleanUp()
 
 void SceneEditor::DrawGrid()
 {
-	for (int i = 0; i < 26; i++)
+	for (int i = 0; i < 32; i++)
 	{
-		app->render->DrawLine(W_MARGIN + (41 * i), H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, W_MARGIN + (41 * i), H_MARGIN + WIN_HEIGHT, { 255, 255, 255, 255 });
+		app->render->DrawLine((41 * i) - maxAmp[0], H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, (41 * i) - maxAmp[0], H_MARGIN + WIN_HEIGHT, { 255, 255, 255, 255 });
 	}
 	for (int i = 0; i < 27; i++)
 	{
-		app->render->DrawLine(W_MARGIN, H_MARGIN + (41 * i) - WIN_HEIGHT + TILE_SIZE * 2, WIN_WIDTH + W_MARGIN, H_MARGIN + (41 * i) - WIN_HEIGHT + TILE_SIZE * 2, { 255, 255, 255, 255 });
+		app->render->DrawLine(-maxAmp[0], H_MARGIN + (41 * i) - WIN_HEIGHT + TILE_SIZE * 2, -maxAmp[1], H_MARGIN + (41 * i) - WIN_HEIGHT + TILE_SIZE * 2, { 255, 255, 255, 255 });
 	}
 
 	if (lvlAmp > 0)
 	{
-		for (int i = 1; i < 26; i++)
+		for (int i = 1; i < 32; i++)
 		{
-			app->render->DrawLine(W_MARGIN + (41 * i) - maxAmp[1], H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, W_MARGIN + (41 * i) - maxAmp[1], H_MARGIN + WIN_HEIGHT, { 255, 255, 255, 255 });
+			app->render->DrawLine((41 * i) - maxAmp[1], H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, (41 * i) - maxAmp[1], H_MARGIN + WIN_HEIGHT, { 255, 255, 255, 255 });
 		}
 		for (int i = 0; i < 27; i++)
 		{
-			app->render->DrawLine(W_MARGIN + WIN_WIDTH, H_MARGIN + (41 * i) - WIN_HEIGHT + TILE_SIZE * 2, WIN_WIDTH + W_MARGIN + WIN_WIDTH, H_MARGIN + (41 * i) - WIN_HEIGHT + TILE_SIZE * 2, { 255, 255, 255, 255 });
+			app->render->DrawLine(-maxAmp[1], H_MARGIN + (41 * i) - WIN_HEIGHT + TILE_SIZE * 2, -maxAmp[2], H_MARGIN + (41 * i) - WIN_HEIGHT + TILE_SIZE * 2, { 255, 255, 255, 255 });
 		}
 	}
 
 	if (lvlAmp > 1)
 	{
-		for (int i = 1; i < 26; i++)
+		for (int i = 1; i < 32; i++)
 		{
-			app->render->DrawLine(W_MARGIN + (41 * i) - maxAmp[2], H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, W_MARGIN + (41 * i) - maxAmp[2], H_MARGIN + WIN_HEIGHT, { 255, 255, 255, 255 });
+			app->render->DrawLine((41 * i) - maxAmp[2], H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, (41 * i) - maxAmp[2], H_MARGIN + WIN_HEIGHT, { 255, 255, 255, 255 });
 		}
 		for (int i = 0; i < 27; i++)
 		{
-			app->render->DrawLine(W_MARGIN + WIN_WIDTH * 2, H_MARGIN + (41 * i) - WIN_HEIGHT + TILE_SIZE * 2, WIN_WIDTH + W_MARGIN + WIN_WIDTH * 2, H_MARGIN + (41 * i) - WIN_HEIGHT + TILE_SIZE * 2, { 255, 255, 255, 255 });
+			app->render->DrawLine(-maxAmp[2], H_MARGIN + (41 * i) - WIN_HEIGHT + TILE_SIZE * 2, -maxAmp[3], H_MARGIN + (41 * i) - WIN_HEIGHT + TILE_SIZE * 2, { 255, 255, 255, 255 });
 		}
 	}
 
 	if (lvlAmp > 2)
 	{
-		for (int i = 1; i < 26; i++)
+		for (int i = 1; i < 32; i++)
 		{
-			app->render->DrawLine(W_MARGIN + (41 * i) + -maxAmp[3], H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, W_MARGIN + (41 * i) - maxAmp[3], H_MARGIN + WIN_HEIGHT, { 255, 255, 255, 255 });
+			app->render->DrawLine((41 * i) - maxAmp[3], H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, (41 * i) - maxAmp[3], H_MARGIN + WIN_HEIGHT, { 255, 255, 255, 255 });
 		}
 		for (int i = 0; i < 27; i++)
 		{
-			app->render->DrawLine(W_MARGIN + WIN_WIDTH * 3, H_MARGIN + (41 * i) - WIN_HEIGHT + TILE_SIZE * 2, WIN_WIDTH + W_MARGIN + WIN_WIDTH * 3, H_MARGIN + (41 * i) - WIN_HEIGHT + TILE_SIZE * 2, { 255, 255, 255, 255 });
+			app->render->DrawLine(-maxAmp[3], H_MARGIN + (41 * i) - WIN_HEIGHT + TILE_SIZE * 2, -maxAmp[4], H_MARGIN + (41 * i) - WIN_HEIGHT + TILE_SIZE * 2, { 255, 255, 255, 255 });
 		}
 	}
 
@@ -149,8 +149,9 @@ void SceneEditor::DragPlayerLogic()
 
 		if (app->scene->player->dragged)
 		{
-			if ((pos.x - W_MARGIN) - deltaPos.x > 0 && pos.y + (app->scene->player->collider.h - deltaPos.y) < WIN_HEIGHT + H_MARGIN)
+			if (pos.x > W_MARGIN - app->render->camera.x && pos.y + app->scene->player->collider.h < WIN_HEIGHT + H_MARGIN - app->render->camera.y && pos.x + app->scene->player->collider.w < W_MARGIN + WIN_WIDTH - app->render->camera.x && pos.y > app->render->camera.y + H_MARGIN)
 			{
+				LOG("%d", pos.y);
 				DragPlayer(pos);
 			}
 		}
@@ -168,7 +169,7 @@ void SceneEditor::CameraMoveLogic()
 
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
-			if (app->render->camera.x > maxAmp[lvlAmp]) app->render->camera.x -= 3;
+			if (app->render->camera.x - WIN_WIDTH > maxAmp[lvlAmp + 1] + W_MARGIN) app->render->camera.x -= 3;
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
@@ -253,9 +254,24 @@ void SceneEditor::LevelAmpLogic()
 			if (lvlAmp != AMP0) lvlAmp = (LevelAmplitude)((int)lvlAmp - 1);
 			
 			//MOVE CAMERA
-			if (lvlAmp == AMP2 && app->render->camera.x < maxAmp[AMP2]) app->render->camera.x = maxAmp[AMP2];
-			else if (lvlAmp == AMP1 && app->render->camera.x < maxAmp[AMP1]) app->render->camera.x = maxAmp[AMP1];
-			else if (lvlAmp == AMP0 && app->render->camera.x < maxAmp[AMP0]) app->render->camera.x = maxAmp[AMP0];
+			if (lvlAmp == AMP2 && app->render->camera.x < maxAmp[AMP2])
+			{
+				app->render->camera.x = maxAmp[AMP3] + app->render->camera.w - W_MARGIN;
+				app->scene->player->collider.x = -app->render->camera.x + 200;
+				app->scene->player->UpdatePlayerPos();
+			}
+			else if (lvlAmp == AMP1 && app->render->camera.x < maxAmp[AMP1])
+			{
+				app->render->camera.x = maxAmp[AMP2] + app->render->camera.w - W_MARGIN;
+				app->scene->player->collider.x = -app->render->camera.x + 200;
+				app->scene->player->UpdatePlayerPos();
+			}
+			else if (lvlAmp == AMP0 && app->render->camera.x < maxAmp[AMP0])
+			{
+				app->render->camera.x = maxAmp[AMP1] + app->render->camera.w - W_MARGIN;
+				app->scene->player->collider.x = -app->render->camera.x + 200;
+				app->scene->player->UpdatePlayerPos();
+			}
 
 			//ERASE BLOCKS IN OTHER AMPLITUDES
 			EraseAllTileset(GROUND, lvlAmp);
@@ -391,13 +407,13 @@ void SceneEditor::EraseTile(TileType type, iPoint coords)
 void SceneEditor::EraseAllTileset(TileType type, LevelAmplitude lvlAmp)
 {
 	int sum = {};
-	if (lvlAmp == AMP0) sum = 25;
-	else if (lvlAmp == AMP1) sum = 50;
-	else if (lvlAmp == AMP2) sum = 75;
+	if (lvlAmp == AMP0) sum = 31;
+	else if (lvlAmp == AMP1) sum = 62;
+	else if (lvlAmp == AMP2) sum = 93;
 
 	if (type == GROUND)
 	{
-		for (int x = sum; x < 25 + sum; x++)
+		for (int x = sum; x < 32 + sum; x++)
 		{
 			for (int y = 0; y < 26; y++)
 			{
