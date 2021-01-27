@@ -38,6 +38,10 @@ private:
 	iPoint coordinates = {0, 0};
 	SDL_Rect ground1 = {0, 0, 41, 41};
 	SDL_Rect ground2 = { 41, 0, 41, 41 };
+	SDL_Rect ground3 = { 82, 0, 41, 41 };
+	SDL_Rect ground4 = { 123, 0, 41, 41 };
+	SDL_Rect ground5 = { 164, 0, 41, 41 };
+	SDL_Rect ground6 = { 205, 0, 41, 41 };
 };
 
 #endif // __GROUNDTILE_H__

@@ -29,7 +29,7 @@ Player::Player() : Entity(EntityType::PLAYER)
 
 bool Player::Update(float dt)
 {
-    #define GRAVITY 1.0f
+    #define GRAVITY 3.0f
     #define PLAYER_MOVE_SPEED 3.0f
     float speed = PLAYER_MOVE_SPEED;
 
@@ -262,6 +262,7 @@ void Player::Gravity(float dt)
     if (!CollisionLogic())
     {
         position.y = collider.y;
+        ground = false;
     }
     else
     {
@@ -307,8 +308,11 @@ void Player::UpdatePlayerPos()
 
 void Player::Jump()
 {
-    jumpForce -= JUMP_SUBST;
-    collider.y -= jumpForce;
+    if (jumpForce >= 0)
+    {
+        jumpForce -= JUMP_SUBST;
+        collider.y -= jumpForce;
+    }
 
     if (jumpForce < 0)
     {

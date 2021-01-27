@@ -361,7 +361,9 @@ void SceneEditor::ReplacePlayerLogic()
 		if (app->scene->player->collider.y > 720)
 		{
 			EditModeLogic();
-			app->scene->player->collider.y -= 400;
+			app->scene->player->collider.x = W_MARGIN + 30 - app->render->camera.x;
+			app->scene->player->collider.y = 400;
+			app->scene->player->UpdatePlayerPos();
 		}
 	}
 }
