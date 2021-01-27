@@ -42,6 +42,15 @@ private:
 	SDL_Rect ground4 = { 123, 0, 41, 41 };
 	SDL_Rect ground5 = { 164, 0, 41, 41 };
 	SDL_Rect ground6 = { 205, 0, 41, 41 };
+	SDL_Rect ground7 = { 246, 0, 41, 41 };
+	SDL_Rect ground8 = { 287, 0, 41, 41 };
+	SDL_Rect ground9 = { 328, 0, 41, 41 };
+	SDL_Rect ground10 = { 369, 0, 41, 41 };
+	SDL_Rect ground11 = { 410, 0, 41, 41 };
+	SDL_Rect ground12 = { 451, 0, 41, 41 };
+	SDL_Rect ground13 = { 492, 0, 41, 41 };
+	SDL_Rect ground14 = { 533, 0, 41, 41 };
+	SDL_Rect ground15 = { 574, 0, 41, 41 };
 };
 
 #endif // __GROUNDTILE_H__
