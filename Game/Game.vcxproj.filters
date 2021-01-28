@@ -78,6 +78,9 @@
     <ClCompile Include="Source\Ground_Tile.cpp">
       <Filter>Tiles</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Semiground_Tile.cpp">
+      <Filter>Tiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -187,6 +190,9 @@
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Ground_Tile.h">
+      <Filter>Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Semiground_Tile.h">
       <Filter>Tiles</Filter>
     </ClInclude>
   </ItemGroup>

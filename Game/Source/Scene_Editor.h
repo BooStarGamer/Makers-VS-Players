@@ -6,6 +6,7 @@
 #include "External/SDL/include/SDL.h"
 
 #include "Ground_Tile.h"
+#include "Semiground_Tile.h"
 
 #define TILE_SIZE 41
 #define WIN_HEIGHT 574
@@ -17,12 +18,14 @@
 struct SDL_Texture;
 struct SDL_Rect;
 class GroundTile;
+class SemigroundTile;
 
 enum TileType
 {
 	NO_TILE = -1,
 	ERASE,
-	GROUND
+	GROUND,
+	SEMIGROUND,
 };
 
 enum LevelAmplitude
@@ -64,6 +67,7 @@ public:
 	void EditModeLogic();
 	void DragPlayerLogic();
 	void ReplacePlayerLogic();
+	void RotationTileLogic();
 
 private:
 	void DrawGrid();
@@ -71,11 +75,12 @@ private:
 	void DragPlayer(iPoint pos);
 	void PlaceTile(TileType type, iPoint pos, iPoint coords);
 	void EraseTile(TileType type, iPoint coords);
-	void EraseAllTileset(TileType type, LevelAmplitude lvlAmp);
+	void EraseAllTileset(LevelAmplitude lvlAmp);
 	bool IsMouseInPlayer();
 	DebugTile* GetTileFromXY(int posx, int posy, LevelAmplitude lvlAmp);
 
 	ListItem<GroundTile*>* GetGroundTileFromXY(iPoint coords);
+	ListItem<SemigroundTile*>* GetSemigroundTileFromXY(iPoint coords);
 
 	iPoint GetMousePosInTile();
 	iPoint GetMouseCoordInTile();
@@ -112,6 +117,7 @@ public:
 	SDL_Texture* background = nullptr;
 
 private:
+	bool rotation = false;
 	bool editMode = true;
 	TileType selectedTile = NO_TILE;
 	int YCamHigh = 180;
@@ -129,6 +135,7 @@ private: //Amplitude
 //Lists--------------
 public:
 	List<GroundTile*> groundTiles;
+	List<SemigroundTile*> semigroundTiles;
 
 private: //Debug Tileset
 	List<DebugTile*> Tileset0;

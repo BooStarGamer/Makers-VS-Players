@@ -19,8 +19,6 @@ public: //Functions
 
 	void Draw();
 
-	void TypeGroundLogic();
-
 	iPoint GetCoords() const
 	{
 		return coordinates;

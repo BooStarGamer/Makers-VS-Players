@@ -50,6 +50,7 @@ public: // Getters
 private: //Scene Manager
 	friend class Player;
 	friend class GroundTile;
+	friend class SemigroundTile;
 	friend class SceneEditor;
 
 	SceneEditor* sceneEditor;

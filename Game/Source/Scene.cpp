@@ -187,6 +187,7 @@ void Scene::UpdateEditor()
 	sceneEditor->LevelAmpLogic();
 	sceneEditor->CameraMoveLogic();
 	sceneEditor->TileSelectedLogic();
+	sceneEditor->RotationTileLogic();
 
 	sceneEditor->DragPlayerLogic();
 

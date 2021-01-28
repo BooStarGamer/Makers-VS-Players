@@ -274,7 +274,7 @@ void SceneEditor::LevelAmpLogic()
 			}
 
 			//ERASE BLOCKS IN OTHER AMPLITUDES
-			EraseAllTileset(GROUND, lvlAmp);
+			EraseAllTileset(lvlAmp);
 		}
 	}
 }
@@ -327,6 +327,7 @@ void SceneEditor::TileSelectedLogic()
 		if (app->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN) selectedTile = NO_TILE;
 		if (app->input->GetKey(SDL_SCANCODE_BACKSPACE) == KEY_DOWN) selectedTile = ERASE;
 		else if (app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) selectedTile = GROUND;
+		else if (app->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) selectedTile = SEMIGROUND;
 	}
 }
 
@@ -372,19 +373,33 @@ void SceneEditor::PlaceTile(TileType type, iPoint pos, iPoint coords)
 {
 	bool existent = false;
 
-	if (type == GROUND)
+	ListItem<GroundTile*>* list;
+	for (list = groundTiles.start; list != nullptr; list = list->next)
 	{
-		ListItem<GroundTile*>* list;
-		for (list = groundTiles.start; list != nullptr; list = list->next)
+		if (list->data->GetCoords() == coords)
 		{
-			if (list->data->GetCoords() == coords)
+			existent = true;
+			break;
+		}
+	}
+
+	if (!existent)
+	{
+		ListItem<SemigroundTile*>* list1;
+		for (list1 = semigroundTiles.start; list1 != nullptr; list1 = list1->next)
+		{
+			if (list1->data->GetCoords() == coords)
 			{
 				existent = true;
 				break;
 			}
 		}
-
-		if (!existent) groundTiles.Add(new GroundTile(pos, coords));
+	}
+	
+	if (!existent)
+	{
+		if (type == GROUND) groundTiles.Add(new GroundTile(pos, coords));
+		if (type == SEMIGROUND) semigroundTiles.Add(new SemigroundTile(pos, coords, rotation));
 	}
 }
 
@@ -393,6 +408,11 @@ void SceneEditor::DragPlayer(iPoint pos)
 	app->scene->player->collider.x = pos.x;
 	app->scene->player->collider.y = pos.y;
 	app->scene->player->UpdatePlayerPos();
+}
+
+void SceneEditor::RotationTileLogic()
+{
+	if (app->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) rotation = !rotation;
 }
 
 void SceneEditor::EraseTile(TileType type, iPoint coords)
@@ -410,29 +430,45 @@ void SceneEditor::EraseTile(TileType type, iPoint coords)
 				break;
 			}
 		}
+
+		ListItem<SemigroundTile*>* list1;
+		for (list1 = semigroundTiles.start; list1 != nullptr; list1 = list1->next)
+		{
+			if (list1->data->GetCoords() == coords)
+			{
+				delete list1->data;
+				semigroundTiles.Del(list1);
+				list1->data = nullptr;
+				break;
+			}
+		}
 	}
 }
 
-void SceneEditor::EraseAllTileset(TileType type, LevelAmplitude lvlAmp)
+void SceneEditor::EraseAllTileset(LevelAmplitude lvlAmp)
 {
 	int sum = {};
 	if (lvlAmp == AMP0) sum = 31;
 	else if (lvlAmp == AMP1) sum = 62;
 	else if (lvlAmp == AMP2) sum = 93;
 
-	if (type == GROUND)
+	for (int x = sum; x < 32 + sum; x++)
 	{
-		for (int x = sum; x < 32 + sum; x++)
+		for (int y = 0; y < 26; y++)
 		{
-			for (int y = 0; y < 26; y++)
+			ListItem<GroundTile*>* toErase = GetGroundTileFromXY(iPoint(x, y));
+			if (toErase != nullptr)
 			{
-				ListItem<GroundTile*>* toErase = GetGroundTileFromXY(iPoint(x, y));
-				if (toErase != nullptr)
-				{
-					delete toErase->data;
-					groundTiles.Del(toErase);
-					toErase->data = nullptr;
-				}
+				delete toErase->data;
+				groundTiles.Del(toErase);
+				toErase->data = nullptr;
+			}
+			ListItem<SemigroundTile*>* toErase1 = GetSemigroundTileFromXY(iPoint(x, y));
+			if (toErase1 != nullptr)
+			{
+				delete toErase1->data;
+				semigroundTiles.Del(toErase1);
+				toErase1->data = nullptr;
 			}
 		}
 	}
@@ -563,6 +599,11 @@ void SceneEditor::DrawTiles()
 	{
 		list->data->Draw();
 	}
+	ListItem<SemigroundTile*>* list1;
+	for (list1 = semigroundTiles.start; list1 != nullptr; list1 = list1->next)
+	{
+		list1->data->Draw();
+	}
 }
 
 // ADDITIONAL FUNCTIONS
@@ -627,6 +668,20 @@ ListItem<GroundTile*>* SceneEditor::GetGroundTileFromXY(iPoint coords)
 {
 	ListItem<GroundTile*>* list;
 	for (list = groundTiles.start; list != nullptr; list = list->next)
+	{
+		if (list->data->GetCoords() == coords)
+		{
+			return list;
+		}
+	}
+
+	return nullptr;
+}
+
+ListItem<SemigroundTile*>* SceneEditor::GetSemigroundTileFromXY(iPoint coords)
+{
+	ListItem<SemigroundTile*>* list;
+	for (list = semigroundTiles.start; list != nullptr; list = list->next)
 	{
 		if (list->data->GetCoords() == coords)
 		{
