@@ -180,6 +180,11 @@ void Scene::UpdateEditor()
 		sceneEditor->debugTileset = !sceneEditor->debugTileset;
 	}
 
+	if (app->input->GetKey(SDL_SCANCODE_KP_3) == KEY_DOWN)
+	{
+		sceneEditor->debugDraw = !sceneEditor->debugDraw;
+	}
+
 	sceneEditor->Draw();
 
 	player->Update(1.0f);

@@ -15,9 +15,15 @@ SemigroundTile::SemigroundTile(iPoint pos, iPoint coords, bool rot)
 	semigroundTex = app->tex->Load("Assets/Tilesets/semiground_tileset.png");
 	position = pos;
 	coordinates = coords;
-	semigroundHRect = { pos.x, pos.y, 41, 4 };
-	semigroundVLRect = { pos.x, pos.y, 4, 41 };
-	semigroundVRRect = { pos.x + 37, pos.y, 4, 41 };
+	semigroundHRect.x = pos.x;
+	semigroundHRect.y = pos.y;
+	semigroundVRect.x += pos.x;
+	semigroundVRect.y = pos.y;
+
+	if (!rot) semigroundRect = semigroundHRect;
+	else if (rot) semigroundRect = semigroundVRect;
+	semigroundRectA = semigroundVRect;
+
 	rotated = rot;
 }
 

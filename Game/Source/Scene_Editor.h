@@ -108,12 +108,14 @@ public: //Getters
 private: //Debug Functions
 	void DebugMargin(bool debug);
 	void DebugTileset(LevelAmplitude lvlAmp, bool debug);
+	void DebugDraw();
 //Functions----------
 
 //Variables----------
 public:
 	bool debugMargin = true;
 	bool debugTileset = false;
+	bool debugDraw = false;
 	SDL_Texture* background = nullptr;
 
 private:

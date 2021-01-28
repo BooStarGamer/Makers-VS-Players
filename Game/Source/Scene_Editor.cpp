@@ -42,6 +42,8 @@ void SceneEditor::Draw()
 
 	DrawTiles();
 
+	if (debugDraw) DebugDraw();
+
 	//DEBUG CAM LOGIC Y (Glitch: Put player on max top)
 	/*if (!editMode)
 	{
@@ -487,6 +489,25 @@ void SceneEditor::DebugMargin(bool debug)
 	}
 }
 
+void SceneEditor::DebugDraw()
+{
+	ListItem<GroundTile*>* list;
+	for (list = groundTiles.start; list != nullptr; list = list->next)
+	{
+		app->render->DrawRectangle(list->data->GetRect(), {0, 255, 0, 120});
+	}
+
+	ListItem<SemigroundTile*>* list1;
+	for (list1 = semigroundTiles.start; list1 != nullptr; list1 = list1->next)
+	{
+		app->render->DrawRectangle(list1->data->GetRect(), { 255, 0, 0, 120 });
+		if (list1->data->GetBoth())
+		{
+			app->render->DrawRectangle(list1->data->GetRectA(), { 255, 255, 0, 120 });
+		}
+	}
+}
+
 void SceneEditor::DebugTileset(LevelAmplitude lvlAmp, bool debug)
 {
 	Uint8 alpha = 100;
@@ -599,6 +620,7 @@ void SceneEditor::DrawTiles()
 	{
 		list->data->Draw();
 	}
+
 	ListItem<SemigroundTile*>* list1;
 	for (list1 = semigroundTiles.start; list1 != nullptr; list1 = list1->next)
 	{

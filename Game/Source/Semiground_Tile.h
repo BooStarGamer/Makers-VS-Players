@@ -24,18 +24,30 @@ public: //Functions
 		return coordinates;
 	}
 
-	//SDL_Rect GetRect() const
-	//{
-	//	return semigroundRect;
-	//}
+	bool GetBoth() const
+	{
+		return both;
+	}
+
+	SDL_Rect GetRect() const
+	{
+		return semigroundRect;
+	}
+
+	SDL_Rect GetRectA() const
+	{
+		return semigroundRectA;
+	}
 
 private:
 	bool rotated = false;
+	bool both = false;
 	SDL_Texture* semigroundTex;
+	SDL_Rect semigroundRect = {};
+	SDL_Rect semigroundRectA = {};
 
-	SDL_Rect semigroundHRect = { 0, 0, 41, 4 };
-	SDL_Rect semigroundVLRect = { 0, 0, 4, 41 };
-	SDL_Rect semigroundVRRect = { 37, 0, 4, 41 };
+	SDL_Rect semigroundHRect = { 0, 0, 41, 10 };
+	SDL_Rect semigroundVRect = { 31, 0, 10, 41 };
 
 	iPoint position = { 0, 0 };
 	iPoint coordinates = { 0, 0 };
