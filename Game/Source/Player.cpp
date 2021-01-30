@@ -284,6 +284,19 @@ bool Player::CollisionLogic()
         }
     }
 
+    ListItem<SemigroundTile*>* list1;
+    for (list1 = app->scene->sceneEditor->semigroundTiles.start; list1 != nullptr; list1 = list1->next)
+    {
+        if (CheckCollision(list1->data->GetRect()))
+        {
+            if (collider.y + collider.h > list1->data->GetRect().y && collider.y + collider.h - 9 < list1->data->GetRect().y)
+            {
+                ground = true;
+                return true;
+            }
+        }
+    }
+
     return false;
 }
 
