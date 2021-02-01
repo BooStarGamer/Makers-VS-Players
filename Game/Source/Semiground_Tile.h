@@ -39,6 +39,11 @@ public: //Functions
 		return semigroundRectA;
 	}
 
+	bool GetRot() const
+	{
+		return rotated;
+	}
+
 private:
 	bool rotated = false;
 	bool both = false;

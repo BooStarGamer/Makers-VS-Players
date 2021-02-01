@@ -39,8 +39,13 @@ public:
     }
 
     void UpdatePlayerPos();
-private:
+
     bool CheckCollision(SDL_Rect collision);
+
+    void CollisionSemisolidLogic();
+
+private:
+    void CheckPassThroughX(SDL_Rect p, SDL_Rect ss);
     void Jump();
     void ResetJump();
 
@@ -49,6 +54,9 @@ private:
     bool jump;
     bool ground;
     bool crouched;
+    bool passThroughX = true;
+    bool loopSsX = true;
+
 public:
     bool dragged = false;
     bool left = false;

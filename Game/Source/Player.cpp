@@ -37,6 +37,7 @@ bool Player::Update(float dt)
 
     if (!app->scene->sceneEditor->GetEditMode())
     {
+        //SPRINT
         if (app->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
         {
             speed = speed * speedMultiplier;
@@ -62,31 +63,19 @@ bool Player::Update(float dt)
             }
         }
 
+        //MOVE LEFT
         if (app->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
         {
             left = true; 
-            right = true;
+            right = false;
         }
         else if (collider.x > W_MARGIN && app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
         {
-            if (!crouched && !jump)
+            if (crouched && !jump)
             {
-                if (ground) collider.x -= (speed * dt);
-                else if (!ground)
-                {
-                    collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);
-                    speed += PLAYER_MOVE_SPEED;
-                }
-                if (!CollisionLogic())
-                {
-                    position.x = collider.x;
-                }
-                else
-                {
-                    collider.x = position.x;
-                }
+
             }
-            else if (crouched && jump)
+            else
             {
                 if (ground) collider.x -= (speed * dt);
                 else if (!ground)
@@ -94,26 +83,11 @@ bool Player::Update(float dt)
                     collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);
                     speed += PLAYER_MOVE_SPEED;
                 }
+
                 if (!CollisionLogic())
                 {
-                    position.x = collider.x;
-                }
-                else
-                {
-                    collider.x = position.x;
-                }
-            }
-            else if (!crouched && jump)
-            {
-                if (ground) collider.x -= (speed * dt);
-                else if (!ground)
-                {
-                    collider.x -= ((speed + PLAYER_MOVE_SPEED) * dt);
-                    speed += PLAYER_MOVE_SPEED;
-                }
-                if (!CollisionLogic())
-                {
-                    position.x = collider.x;
+                    if (passThroughX) position.x = collider.x;
+                    else if (!passThroughX) collider.x = position.x;
                 }
                 else
                 {
@@ -122,49 +96,21 @@ bool Player::Update(float dt)
             }
         }
         else if (app->input->GetKey(SDL_SCANCODE_A) == KEY_UP) left = false;
-
+        
+        //MOVE RIGHT
         if (app->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
         {
             right = true;
             left = false;
+            passThroughX = true;
         }
         else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
         {
-            if (!crouched && !jump)
+            if (crouched && !jump)
             {
-                if (ground) collider.x += (speed * dt);
-                else if (!ground)
-                {
-                    collider.x += ((speed + PLAYER_MOVE_SPEED) * dt);
-                    speed += PLAYER_MOVE_SPEED;
-                }
-                if (!CollisionLogic())
-                {
-                    position.x = collider.x;
-                }
-                else
-                {
-                    collider.x = position.x;
-                }
+
             }
-            else if (crouched && jump)
-            {
-                if (ground) collider.x += (speed * dt);
-                else if (!ground)
-                {
-                    collider.x += ((speed + PLAYER_MOVE_SPEED) * dt);
-                    speed += PLAYER_MOVE_SPEED;
-                }
-                if (!CollisionLogic())
-                {
-                    position.x = collider.x;
-                }
-                else
-                {
-                    collider.x = position.x;
-                }
-            }
-            else if (!crouched && jump)
+            else
             {
                 if (ground) collider.x += (speed * dt);
                 else if (!ground)
@@ -184,6 +130,7 @@ bool Player::Update(float dt)
         }
         else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_UP) right = false;
 
+        //CROACH
         if (app->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
         {
             collider.h = 32;
@@ -199,6 +146,7 @@ bool Player::Update(float dt)
             crouched = false;
         }
 
+        //JUMP
         if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && ground)
         {
             ground = false;
@@ -207,6 +155,7 @@ bool Player::Update(float dt)
 
         if (jump) Jump();
 
+        //GRAVITY
         Gravity(dt);
 
         finalSpeed = abs(speed);
@@ -233,6 +182,9 @@ bool Player::Update(float dt)
 
         if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && -1 * (app->render->camera.y - WIN_HEIGHT - H_MARGIN) < WIN_HEIGHT + H_MARGIN) collider.y += ((PLAYER_MOVE_SPEED + 1) * dt);
     }
+
+    LOG("Pass: %d", passThroughX);
+    LOG("Loop: %d", loopSsX);
 
     return true;
 }
@@ -274,30 +226,40 @@ void Player::Gravity(float dt)
 
 bool Player::CollisionLogic()
 {
+    bool ret = false;
+
     ListItem<GroundTile*>* list;
     for (list = app->scene->sceneEditor->groundTiles.start; list != nullptr; list = list->next)
     {
         if (CheckCollision(list->data->GetRect()))
         {
             ground = true;
-            return true;
+            ret = true;
         }
     }
+
+    CollisionSemisolidLogic();
 
     ListItem<SemigroundTile*>* list1;
     for (list1 = app->scene->sceneEditor->semigroundTiles.start; list1 != nullptr; list1 = list1->next)
     {
-        if (CheckCollision(list1->data->GetRect()))
+        if (CheckCollision(list1->data->GetRect()) && !list1->data->GetRot())
         {
-            if (collider.y + collider.h > list1->data->GetRect().y && collider.y + collider.h - 9 < list1->data->GetRect().y)
+            if (collider.y + collider.h > list1->data->GetRect().y && collider.y + collider.h - 9 < list1->data->GetRect().y && !list1->data->GetRot())
             {
                 ground = true;
-                return true;
+                ret = true;
             }
+        }
+
+        if (loopSsX && CheckCollision(list1->data->GetRect()) && list1->data->GetRot())
+        {
+            CheckPassThroughX(collider, list1->data->GetRect());
+            loopSsX = false;
         }
     }
 
-    return false;
+    return ret;
 }
 
 bool Player::CheckCollision(SDL_Rect collision)
@@ -311,6 +273,30 @@ bool Player::CheckCollision(SDL_Rect collision)
     }
 
     return false;
+}
+
+void Player::CollisionSemisolidLogic()
+{
+    int a = 0;
+    ListItem<SemigroundTile*>* list1;
+    for (list1 = app->scene->sceneEditor->semigroundTiles.start; list1 != nullptr; list1 = list1->next)
+    {
+        if (app->scene->player->CheckCollision(list1->data->GetRect()) && list1->data->GetRot())
+        {
+            a++;
+            return;
+        }
+    }
+
+    if (a == 0) loopSsX = true;
+}
+
+void Player::CheckPassThroughX(SDL_Rect p, SDL_Rect ss)
+{
+    if (p.x < ss.x + ss.w &&
+        p.x > ss.x) passThroughX = false;
+    else if (p.x + p.w < ss.x + ss.w &&
+        p.x + p.w > ss.x) passThroughX = true;
 }
 
 void Player::UpdatePlayerPos()

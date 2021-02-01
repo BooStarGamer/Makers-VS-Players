@@ -44,27 +44,22 @@ void SceneEditor::Draw()
 
 	if (debugDraw) DebugDraw();
 
-	//DEBUG CAM LOGIC Y (Glitch: Put player on max top)
-	/*if (!editMode)
-	{
-		app->render->DrawLine(W_MARGIN, YCamHigh, W_MARGIN + WIN_WIDTH, YCamHigh, { 100, 255, 255, 255 });
-	}
-	if (!editMode)
-	{
-		app->render->DrawLine(W_MARGIN, YCamLow, W_MARGIN + WIN_WIDTH, YCamLow, { 100, 255, 255, 255 });
-	}*/
-
-	//DEBUG CAM LOGIC X (Glitch: Put player out of XCamBack/XCamFor)
-	//if (!editMode)
-	//{
-	//	app->render->DrawLine(XCamFor, UP_MAXIMUM, XCamFor, WIN_HEIGHT + H_MARGIN, { 100, 255, 255, 255 });
-	//}
-	//if (!editMode)
-	//{
-	//	app->render->DrawLine(XCamBack, UP_MAXIMUM, XCamBack, WIN_HEIGHT + H_MARGIN, { 100, 255, 255, 255 });
-	//}
-
 	if (editMode) DrawGrid();
+
+	////-------------------------------------------------- DEBUG SEMISOLID ORDER OF COLLISION CHECK
+	//ListItem<SemigroundTile*>* list1;
+	//bool loop = true;
+	//for (list1 = app->scene->sceneEditor->semigroundTiles.start; list1 != nullptr; list1 = list1->next)
+	//{
+	//	if (loop)
+	//	{
+	//		if (app->scene->player->CheckCollision(list1->data->GetRect()) && list1->data->GetRot())
+	//		{
+	//			loop = false;
+	//		}
+	//		app->render->DrawRectangle({ list1->data->GetRect().x - 20, list1->data->GetRect().y, 41, list1->data->GetRect().h }, { 0, 0, 255, 150 });
+	//	}
+	//}
 }
 
 void SceneEditor::CleanUp()
@@ -390,10 +385,33 @@ void SceneEditor::PlaceTile(TileType type, iPoint pos, iPoint coords)
 		ListItem<SemigroundTile*>* list1;
 		for (list1 = semigroundTiles.start; list1 != nullptr; list1 = list1->next)
 		{
+			iPoint left = { coords.x - 1, coords.y };
+			iPoint right = { coords.x + 1, coords.y };
+
 			if (list1->data->GetCoords() == coords)
 			{
 				existent = true;
 				break;
+			}
+
+			if (rotation)
+			{
+				if (list1->data->GetCoords() == left)
+				{
+					if (list1->data->GetRot())
+					{
+						existent = true;
+						break;
+					}
+				}
+				else if (list1->data->GetCoords() == right)
+				{
+					if (list1->data->GetRot())
+					{
+						existent = true;
+						break;
+					}
+				}
 			}
 		}
 	}
