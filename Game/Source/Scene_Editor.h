@@ -7,6 +7,7 @@
 
 #include "Ground_Tile.h"
 #include "Semiground_Tile.h"
+#include "Animation.h"
 
 #define TILE_SIZE 41
 #define WIN_HEIGHT 574
@@ -145,6 +146,9 @@ private: //Debug Tileset
 	List<DebugTile*> Tileset2;
 	List<DebugTile*> Tileset3;
 //Lists--------------
+//Animations---------
+private:
+	Animation idleHUD;
 };
 
 #endif // __SCENEEDITOR_H__
