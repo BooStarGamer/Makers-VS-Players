@@ -70,6 +70,9 @@ void SceneEditor::CleanUp()
 {
 	if (background != nullptr)
 		app->tex->UnLoad(background);
+
+	if (HUD != nullptr)
+		app->tex->UnLoad(HUD);
 }
 
 // SCENE EDITION FUNCTIONS

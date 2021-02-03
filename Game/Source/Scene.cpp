@@ -156,6 +156,7 @@ void Scene::SetEditor()
 	player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
 	player->position = {W_MARGIN, 200};
 	sceneEditor->background = app->tex->Load("Assets/Textures/static_background.png");
+	sceneEditor->HUD = app->tex->Load("Assets/Textures/HUDBackground.png");
 }
 
 void Scene::UpdateLogoScene()
