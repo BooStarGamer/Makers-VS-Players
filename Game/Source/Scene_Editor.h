@@ -1,6 +1,8 @@
 #ifndef __SCENEEDTIOR_H__
 #define __SCENEEDITOR_H__
 
+#include "App.h"
+#include "Textures.h"
 #include "Point.h"
 #include "List.h"
 #include "External/SDL/include/SDL.h"
@@ -118,6 +120,7 @@ public:
 	bool debugTileset = false;
 	bool debugDraw = false;
 	SDL_Texture* background = nullptr;
+	SDL_Texture* HUD = nullptr;
 
 private:
 	bool rotation = false;
@@ -146,9 +149,7 @@ private: //Debug Tileset
 	List<DebugTile*> Tileset2;
 	List<DebugTile*> Tileset3;
 //Lists--------------
-//Animations---------
-private:
-	Animation idleHUD;
+
 };
 
 #endif // __SCENEEDITOR_H__

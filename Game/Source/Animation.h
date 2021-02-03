@@ -23,9 +23,9 @@ public:
 		loops = a;
 	}
 
-	void PushBack(const SDL_Rect& rect , SString nameAnim)
+	void PushBack(const SDL_Rect& rect , char* nameAnim)
 	{
-		name = nameAnim;
+		name.Create(nameAnim);
 		frames[lastFrame++] = rect;
 	}
 

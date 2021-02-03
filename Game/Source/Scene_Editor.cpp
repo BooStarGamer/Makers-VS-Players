@@ -1,5 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
-
 #include "App.h"
 #include "Scene.h"
 #include "Scene_Editor.h"
@@ -32,34 +30,6 @@ SceneEditor::SceneEditor(LevelAmplitude lvl)
 			Tileset3.Add(new DebugTile({ TILE_SIZE * x + W_MARGIN + WIN_WIDTH * 3, TILE_SIZE * y + H_MARGIN - WIN_HEIGHT + TILE_SIZE * 2, 41, 41 }, { x + 75, y }));
 		}
 	}
-
-	//Animations
-	SString anim, format, num;
-	anim.Create("Assets/Textures/HUD_ANIMATION/HUD_IDLE/HUD Background");
-	format.Create(".png");
-
-	char number[3] = {};
-
-	for (int i = 0; i < 373; i++)
-	{
-		if (i < 10)
-		{
-			sprintf(number, "00%d", i);
-		}
-		else if (i < 100) sprintf(number, "0%d", i);
-		else if (i >= 100) sprintf(number, "%d", i);
-
-		SString start = anim;
-		num.Create(number);
-
-		start += num;
-		start += format;
-
-		idleHUD.PushBack({0, 0, 1280, 70}, start.GetString());
-		num.Clear();
-	}
-	anim.Clear();
-	format.Clear();
 }
 
 SceneEditor::~SceneEditor()
@@ -77,6 +47,8 @@ void SceneEditor::Draw()
 	if (debugDraw) DebugDraw();
 
 	if (editMode) DrawGrid();
+
+	if (editMode) app->render->DrawTexture(HUD, -app->render->camera.x, -app->render->camera.y);
 
 	////-------------------------------------------------- DEBUG SEMISOLID ORDER OF COLLISION CHECK
 	//ListItem<SemigroundTile*>* list1;
