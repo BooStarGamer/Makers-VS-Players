@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "RectCollider.h"
+#include "RoundCollider.h"
 #include "List.h"
 #include "Log.h"
 #include "Point.h"
@@ -54,19 +55,17 @@ public:
 		mass = mass_;
 	}
 
-	//Circle Body Constructor
-
-	//Body(BodyType bodyType_, ColliderType colliderType_ = ColliderType::UNDEFINED, fPoint position_ = { 0.0f,0.0f }, SDL_Texture* texture_ = NULL, CircleCollider* circleCollider_ = NULL, uint mass_ = 1) // Constructor with body type and collider type
-	//{
-	//	name = "noname";
-	//	bodyType = bodyType_;
-	//	position = position_;
-	//	colliderType = colliderType_;
-	//	texture = texture_;
-	//	circlecollider = circleCollider_;
-	//	collider = NULL;
-	//	mass = mass_;
-	//}
+	Body(BodyType bodyType_, ColliderType colliderType_ = ColliderType::UNDEFINED, fPoint position_ = { 0.0f,0.0f }, SDL_Texture* texture_ = NULL, RoundCollider* circleCollider_ = NULL, uint mass_ = 1) // Constructor with body type and collider type
+	{
+		name = "noname";
+		bodyType = bodyType_;
+		position = position_;
+		colliderType = colliderType_;
+		texture = texture_;
+		roundCollider = circleCollider_;
+		collider = NULL;
+		mass = mass_;
+	}
 
 	void SolveCollision(Body& body);
 	void DeClipper(Body& body);
@@ -76,7 +75,7 @@ public:
 	SString name;
 	// TODO: Add collider as argument (SDL_Rectangl) that in the constructor creates a "new Collider(); and assign it to collider atribute"
 	RectCollider* collider;
-	//CircleCollider* circlecollider;
+	RoundCollider* roundCollider;
 	SDL_Texture* texture;
 
 	BodyType bodyType;
@@ -93,7 +92,7 @@ class StaticBody : public Body
 public:
 	StaticBody() :Body(BodyType::STATIC_BODY, 0) {}
 	StaticBody(fPoint position_, ColliderType colliderType_, SDL_Texture* texture_, RectCollider* collider_, uint mass_) :Body(BodyType::STATIC_BODY, colliderType_, position_, texture_, collider_, mass_) {}
-	//StaticBody(fPoint position_, ColliderType colliderType_, SDL_Texture* texture_, CircleCollider* collider_, uint mass_) :Body(BodyType::STATIC_BODY, colliderType_, position_, texture_, collider_, mass_) {}
+	StaticBody(fPoint position_, ColliderType colliderType_, SDL_Texture* texture_, RoundCollider* collider_, uint mass_) :Body(BodyType::STATIC_BODY, colliderType_, position_, texture_, collider_, mass_) {}
 
 };
 
@@ -107,14 +106,13 @@ public:
 		gravityAcceleration = gravity_;
 		acceleration = acceleration_;
 	}
-	
-	//Sphere Dynamic Body 
-	/*DynamicBody(fPoint position_, fPoint velocity_, fPoint gravity_, fPoint acceleration_, ColliderType colliderType_, SDL_Texture* texture_, CircleCollider* circleCollider_, uint mass_) :Body(BodyType::DYNAMIC_BODY, colliderType_, position_, texture_, circleCollider_, mass_)
+
+	DynamicBody(fPoint position_, fPoint velocity_, fPoint gravity_, fPoint acceleration_, ColliderType colliderType_, SDL_Texture* texture_, RoundCollider* circleCollider_, uint mass_) :Body(BodyType::DYNAMIC_BODY, colliderType_, position_, texture_, circleCollider_, mass_)
 	{
 		velocity = velocity_;
 		gravityAcceleration = gravity_;
 		acceleration = acceleration_;
-	}*/
+	}
 
 public:
 	fPoint velocity;
@@ -166,7 +164,7 @@ public:
 	List<Body*> bodyList;
 public:
 	Body* CreateBody(BodyType bodyType_, ColliderType colliderType_ = ColliderType::UNDEFINED, fPoint position_ = { 0.0f,0.0f }, SDL_Texture* texture_ = NULL, RectCollider* collider_ = NULL, fPoint velocity_ = { 0.0f,0.0f }, fPoint gravity_ = { 0.0f,0.0f }, fPoint acceleration_ = { 0.0f,0.0f }, uint mass_ = 1);
-	//Body* CreateBody(BodyType bodyType_, ColliderType colliderType_ = ColliderType::UNDEFINED, fPoint position_ = { 0.0f,0.0f }, SDL_Texture* texture_ = NULL, CircleCollider* collider_ = NULL, fPoint velocity_ = { 0.0f,0.0f }, fPoint gravity_ = { 0.0f,0.0f }, fPoint acceleration_ = { 0.0f,0.0f }, uint mass_ = 1);
+	Body* CreateBody(BodyType bodyType_, ColliderType colliderType_ = ColliderType::UNDEFINED, fPoint position_ = { 0.0f,0.0f }, SDL_Texture* texture_ = NULL, RoundCollider* collider_ = NULL, fPoint velocity_ = { 0.0f,0.0f }, fPoint gravity_ = { 0.0f,0.0f }, fPoint acceleration_ = { 0.0f,0.0f }, uint mass_ = 1);
 	void Step(float dt);
 
 	//... Apply forces/impulses functions for example

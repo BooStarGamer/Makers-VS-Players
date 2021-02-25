@@ -207,6 +207,9 @@
     <ClInclude Include="Source\Physics.h">
       <Filter>Physics</Filter>
     </ClInclude>
+    <ClInclude Include="Source\RoundCollider.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

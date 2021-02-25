@@ -126,8 +126,6 @@ void Physics::Step(float dt)
 			dynamicBody->ApplyBuoyancy();
 			dynamicBody->ApplyAeroDrag();
 
-			//dynamicBody->ApplyAeroLift();
-
 			// Second law newton
 			dynamicBody->SecondNewton();
 
@@ -232,27 +230,25 @@ Body* Physics::CreateBody(BodyType bodyType_, ColliderType colliderType_, fPoint
 	}
 }
 
-//Circle Body Creation
+Body* Physics::CreateBody(BodyType bodyType_, ColliderType colliderType_, fPoint position_, SDL_Texture* texture_, RoundCollider* collider_, fPoint velocity_, fPoint gravity_, fPoint acceleration_, uint mass_)
+{
+	position_ = { PIXEL_TO_METERS(position_.x),PIXEL_TO_METERS(position_.y) };
 
-//Body* Physics::CreateBody(BodyType bodyType_, ColliderType colliderType_, fPoint position_, SDL_Texture* texture_, RoundCollider* collider_, fPoint velocity_, fPoint gravity_, fPoint acceleration_, uint mass_)
-//{
-//	position_ = { PIXEL_TO_METERS(position_.x),PIXEL_TO_METERS(position_.y) };
-//
-//	if (bodyType_ == STATIC_BODY)
-//	{
-//		Body* newBody = new StaticBody(position_, colliderType_, texture_, collider_, mass_);
-//		bodyList.Add(newBody);
-//		newBody->name = "noName";
-//		return newBody;
-//	}
-//	else if (bodyType_ == DYNAMIC_BODY)
-//	{
-//		Body* newBody = new DynamicBody(position_, velocity_, gravity_, acceleration_, colliderType_, texture_, collider_, mass_);
-//		bodyList.Add(newBody);
-//		newBody->name = "noName";
-//		return newBody;
-//	}
-//}
+	if (bodyType_ == STATIC_BODY)
+	{
+		Body* newBody = new StaticBody(position_, colliderType_, texture_, collider_, mass_);
+		bodyList.Add(newBody);
+		newBody->name = "noName";
+		return newBody;
+	}
+	else if (bodyType_ == DYNAMIC_BODY)
+	{
+		Body* newBody = new DynamicBody(position_, velocity_, gravity_, acceleration_, colliderType_, texture_, collider_, mass_);
+		bodyList.Add(newBody);
+		newBody->name = "noName";
+		return newBody;
+	}
+}
 
 void DynamicBody::SetGravityAcceleration(fPoint& gravity)
 {
