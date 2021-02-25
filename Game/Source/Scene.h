@@ -17,7 +17,9 @@ enum Scenes
 	NONE = -1,
 	LOGO_SCENE,
 	MAIN_MENU,
-	EDITOR_SCENE
+	EDITOR_SCENE,
+	PLAYING_SCENE,
+	PAUSE_MENU
 };
 
 class Scene : public Module
